@@ -1,0 +1,50 @@
+{
+  "__JSON__": true,
+  "LANGUAGE": "Español",
+  "LANGCODE": "es",
+  "AUTHOR": "Ian VanH",
+  "STRINGS": {
+    "updater": {
+      "UPDATE": "*Tu bot está completamente actualizado!*",
+      "NEW_UPDATE": "*Hay una nueva actualización disponible para el bot!*\n\nCambios:\n```",
+      "UPDATED_LOCAL": "*La actualización fue exitosa!"
+    },
+    "sticker": {
+      "quot": "Para crear sticker envia una imagen/gif y respondelo con el comando *{}*.",
+      "video": "La opcion de video a sticker está temporalmente deshabilitada 🙃",
+      "img": "Solo envia imagen/gif."
+    },
+    "ia": {
+      "msg": "🤖 *Si aquí estoy*",
+      "name": "mi nombre es {}",
+      "gpt_msg": "Que deseas buscar?"
+    },
+    "shazam": {
+      "quot": "*Responde el audio que deseas analizar.*",
+      "err": "*No se encontraron datos sobre el audio. Intenta con otro :(*",
+      "image": "*No se pueden analizar imagenes, solo audio!*",
+      "video": "*No se pueden analizar videos, solo audio!*"
+    },
+    "own": {
+      "public": "Ahora todos pueden usar el Bot.",
+      "self": "Solo tu puedes usar el Bot"
+    },
+    "global": {
+      "by": "Hecho por {}",
+      "block": "Estás bloqueado.",
+      "endLimit": "Su límite diario ha expirado, el límite se restablecerá cada 12 horas",
+      "err": "🤖 Parece que tenemos un error.\nIntenta nuevamente.",
+      "welcome": "¡Hola! Soy *DarkBox*, tu asistente personal.\nEstoy acá para ayudarte con tus consultas. Si necesitas algo, no dudes en preguntarme.\nLas funciones que tengo disponibles a parte de ayudarte con cualquier consulta son las siguientes.\n📌 Puedo crear todos los sticker que quieras, solo mándame una imagen y luego la respondes con la palabra 'sticker'\n📌 Si no sabes el nombre de una canción, solo basta que grabes unos 5 segundos y me lo envíes y despues respondas a ese audio con la palabra 'shazam' y buscaré para ti el nombre de esa canción.\n📌 Puedo crear imágenes a partir de un texto o una idea, puedes decirme 'crea' y alguna idea que tengas e intentaré dibujarla por ti.\nEjemplo: crea una tarde lluviosa a la orilla de una playa\n📌Si escribes la palabra 'estado' puedes ver la información de tu perfil en el bot.\n\nSi ya viste que puedo hacer, solo dime por dónde quieres empezar 😊",
+      "no_points": "*Creditos Insuficientes*.\nSi quieres usar todas las funciones sin limites actualiza a premium en el siguiente enlace  😊",
+      "owner": "Funciones especiales del propietario del bot.",
+      "success": "✓ Funcion realizada con exito."
+    },
+    "work_type": {
+      "public": "🤖 *DrkBot funciona en modo publico*\n\n_No probar los comandos aca. Este es tu espacio de LOG._\n_Puedes probar los comandos en cualquier chat._",
+      "private": "🤖 *DrkBot funciona en modo privado*\n\n_No probar los comandos aca. Este es tu espacio de LOG._\n_Puedes probar los comandos en cualquier chat._"
+    },
+    "err": {
+      "msgReport": "REPORTE DE ERROR"
+    }
+  }
+}

@@ -1,0 +1,23 @@
+:root {
+	--background: #fff;
+	--shadow: 0 5px 5px rgba(154,160,185,.05), 0 5px 5px rgba(166,173,201,.2);
+	--radius: 0px;
+	--info: #007BFF;
+	--danger: #DC3545;
+	--success: #1D9D73;
+	--warning: #FFC107; 
+	--love: #FE787A;
+	--status-color: #777;
+	--status-font: Boo;
+	--status-size: 14px;	
+	--status-transform: uppercase;
+	--message-color: #b3b3b3;
+	--message-font: Boo;
+	--message-size: 13px;	
+	--message-transform:;
+	--loader-color-1: var(--col-font);
+	--loader-color-2: var(--container-color);
+	--loader-speed: 1s; /* using (s) = second or (ms) = mili second */
+	--line-color-1: #AAA;
+	--line-color-2: #222;
+}

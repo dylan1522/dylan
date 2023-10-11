@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <%- include('src/head') %>
+</head>
+<body data-senna="data-senna" data-senna-surface="data-senna-surface">
+  <div class="senna-loading-bar"></div>
+  
+  <header>
+    <h1><a href="/" title="DrkBot"><span id="header"><%= botName %></span></a></h1>
+    <%- include('src/header') %>
+  </header>
+  
+  <div class="container">
+    <div class="grid">
+      <!-- Contenido -->
+      <div class="col-7_sm-12">
+        <div class="grid" style="justify-content: center;">
+          <h1>Inteligencia Artificial en tu WhatsApp</h1>
+          <img src="/lib/logo" alt="banner">
+          <br />
+          <h3 style="line-height: 1.5;">DrkBot es un innovador chatbot diseñado para llevar la conversación a un nivel superior en WhatsApp. No se trata solo de un chatbot común, DrkBot puede crear imágenes sorprendentes a partir de tus palabras, identificar canciones a través de mensajes de audio y transformar imágenes o GIFs que le envíes en divertidos stickers personalizados. Prepárate para una experiencia de chat única con DrkBot en WhatsApp, donde la creatividad y la diversión se unen en cada conversación.</h3>
+        </div>
+      </div>
+      
+      <!-- Informacion General -->
+      <div class="col-5_sm-12">
+        <%- include('src/end') %>
+      </div>
+    </div>
+  </div>
+
+  <footer>© DrkBot</footer>
+  <script src="/assets/js/main.js" type="text/javascript"></script>
+</body>
+</html>

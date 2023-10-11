@@ -1,0 +1,50 @@
+{
+  "__JSON__": true,
+  "LANGUAGE": "English",
+  "LANGCODE": "en",
+  "AUTHOR": "Ian VanH",
+  "STRINGS": {
+    "updater": {
+      "UPDATE": "*Your bot is fully updated!*",
+      "NEW_UPDATE": "*A new update is available for the bot!*\n\nChanges:\n```",
+      "UPDATED_LOCAL": "*Update was successful!*"
+    },
+    "sticker": {
+      "quot": "To create a sticker, send an image/gif and reply to it with the command *{}*.",
+      "video": "Video to sticker option is temporarily disabled 🙃",
+      "img": "Send only an image/gif."
+    },
+    "ia": {
+      "msg": "🤖 *Here I am*",
+      "name": "My name is {}",
+      "gpt_msg": "What do you want to search for?"
+    },
+    "shazam": {
+      "quot": "*Reply with the audio you want to analyze.*",
+      "err": "*No data found for the audio. Try another one :(*",
+      "image": "*Images cannot be analyzed, only audio!*",
+      "video": "*Videos cannot be analyzed, only audio!*"
+    },
+    "own": {
+      "public": "Now everyone can use the Bot.",
+      "self": "Only you can use the Bot."
+    },
+    "global": {
+      "by": "Made by {}",
+      "block": "You are blocked.",
+      "endLimit": "Your daily limit has expired, the limit will reset every 12 hours",
+      "err": "🤖 It seems we have an error.\nPlease try again.",
+      "welcome": "Hello! I'm *DarkBox*, your personal assistant. I'm here to help you with your queries. If you need anything, feel free to ask me.\nIn addition to helping with any queries, here are the functions I have available:\n📌 I can create as many stickers as you want, just send me an image or a short video of no more than 10 seconds and then reply with the word 'sticker'\n📌 If you don't know the name of a song, just record about 5 seconds of it, send it to me, and then reply to that audio with the word 'shazam', and I'll find the name of that song for you.\n📌 I can create images from text or an idea. You can tell me 'create' and an idea you have, and I'll try to draw it for you.\nExample: create a rainy evening by the beach\n📌 If you type the word 'status' you can see your profile information in the bot.\n\nNow that you've seen what I can do, just tell me where you'd like to start 😊",
+      "no_points": "*Insufficient Credits*.\nIf you want to use all functions without limits, upgrade to premium at the following link https://w.app/d1hX5c 😊",
+      "owner": "Special functions for the bot owner.",
+      "success": "✓ Function performed successfully."
+    },
+    "work_type": {
+      "public": "🤖 *DrkBot operates in public mode*\n\n_Do not test commands here. This is your LOG space._\n_You can test commands in any chat._",
+      "private": "🤖 *DrkBot operates in private mode*\n\n_Do not test commands here. This is your LOG space._\n_You can test commands in any chat._"
+    },
+    "err": {
+      "msgReport": "ERROR REPORT"
+    }
+  }
+}

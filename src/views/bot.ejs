@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <%- include('src/head') %>
+</head>
+<body data-senna="data-senna" data-senna-surface="data-senna-surface">
+  <div class="senna-loading-bar"></div>
+  
+  <header>
+    <h1><a href="/" title="DrkBot"><span id="header"><%= botName %></span></a></h1>
+    <%- include('src/header') %>
+  </header>
+  
+  <div class="container">
+    <div class="grid">
+      <!-- Contenido -->
+      <div class="col-7_sm-12">
+        <h2>Información Bot</h2>
+        <div class="table-1">
+          <div class="grid">
+            <div class="col-3"><img class="userpic" src="/lib/logo" alt="foto perfil"></div>
+            <div class="col-9">
+              <table cellspacing="5">
+                <td> <b>Número</b> </td>
+                <td> : </td>
+                <td><%= bot %></td>
+                <tr>
+                <td> <b>Usuarios</b> </td>
+                <td> : </td>
+                <td><%= totalUsers %></td>
+                <tr>
+                <td> <b>Usos del Bot</b> </td>
+                <td> : </td>
+                <td><%= usos %></td>
+              </table>
+            </div>
+          </div>
+          <h2>Usuarios</h2>
+        <% for (const phone in users) { %>
+          <div class="pricing">
+            <h2 class="package"><%= users[phone].name %></h2>
+            <span class="limit"><%= phone.split('@')[0] %></span><br>
+            <span class="limit">Plan: <%= users[phone].plan %></span>
+            <span class="price">
+              <form action="/eliminar-usuario" method="post">
+                <input type="hidden" name="phone" value="<%= phone %>">
+                <button type="submit">Eliminar</button>
+              </form>
+            </span>
+            <br>
+            <br>
+          </div>
+          <hr>
+        <% } %>
+
+          <div class="pagination">
+          <% if (currentPage > 1) { %>
+            <a href="/admin?page=<%= currentPage - 1 %>">Anterior</a>
+          <% } %>
+          <% if (currentPage < totalPages) { %>
+            <a href="/admin?page=<%= currentPage + 1 %>">Siguiente</a>
+          <% } %>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Informacion General -->
+      <div class="col-5_sm-12">
+        <%- include('src/end') %>
+      </div>
+    </div>
+  </div>
+
+  <footer>© DrkBot</footer>
+  <script src="/assets/js/main.js" type="text/javascript"></script>
+</body>
+</html>

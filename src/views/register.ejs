@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <%- include('src/head') %>
+  <style type="text/css" media="all">
+    input[type="tel"] {
+      width: 500px;
+    }
+    @media (max-width: 900px) {
+      input[type="tel"] {
+        width: 510px;
+      }
+    }
+  </style>
+</head>
+<body data-senna="data-senna" data-senna-surface="data-senna-surface">
+  <div class="senna-loading-bar"></div>
+
+  <header>
+    <h1><a href="/" title="DrkBot"><span id="header"><%= botName %></span></a></h1>
+    <span class="act"> [ Tienes cuenta? <a href="/login"><span class="status-false">Ingresar</span></a>  ] <span>
+  </header>
+
+  <div class="container">
+    <div class="grid" style="justify-content: center;">
+      <!-- Contenido -->
+      <div class="col-7_sm-12">
+        <h2>Registro</h2>
+        <form id="app-register" method="post">
+          <table>
+            <td>
+              <input type="text" id="username" name="username" class="bax" placeholder="Nombre de usuario" /> <span class="highlight"></span>
+              <input type="tel" id="phone" name="phone" class="bax" placeholder="WhatsApp" /> <span class="highlight"></span>
+              <input type="password" id="password" name="password" class="bax" placeholder="Contraseña" /> <span class="highlight"></span>
+              <span class="bar"></span>
+            </td>
+            <tr>
+            <td>
+              <button class="btn" id="cload"> Registrar </button>
+            </td>
+          </table>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <footer>© DrkBot</footer>
+  <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/js/intlTelInput.min.js"></script>
+  <script src="/assets/js/main.js" type="text/javascript"></script>
+</body>
+</html>

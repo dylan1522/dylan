@@ -1,0 +1,9 @@
+# myVariable
+config.env
+
+# Dependency directories
+node_modules/
+
+# data-auth
+yarn-error.log
+yarn.lock
