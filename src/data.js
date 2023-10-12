@@ -132,7 +132,6 @@ class User {
     } else if (plan === "oro") {
       endDate.setFullYear(now.getFullYear() + 1);
     } else {
-      console.log("El plan seleccionado no es válido.");
       return;
     }
     User.change(phone, {

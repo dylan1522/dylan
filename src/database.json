@@ -1,46 +1,12 @@
 {
   "573046793853@s.whatsapp.net": {
-    "id": "cOQPBL",
-    "name": "🤖 DarkBox",
+    "id": "NBwnPZ",
+    "name": "🤖 DrkBot",
     "pass": "",
     "premium": true,
     "plan": "oro",
-    "planStartDate": "2023-10-10T20:23:25.096Z",
-    "planEndDate": "2024-10-10T20:23:25.096Z",
-    "block": false,
-    "usage": 2,
-    "cash": 10,
-    "conversationHistory": [
-      {
-        "role": "user",
-        "content": "Bienvenido sjrc02, tus credenciales son las siguientes:\n\n*Usuario:*\nsjrc02\n*Contraseña:*\n020497",
-        "timestamp": 1696825239873
-      },
-      {
-        "role": "assistant",
-        "content": "Hola sjrc02, ¿en qué puedo ayudarte hoy?",
-        "timestamp": 1696825239913
-      },
-      {
-        "role": "user",
-        "content": "¡Hola! Soy *DarkBox*, tu asistente personal.\nEstoy acá para ayudarte con tus consultas. Si necesitas algo, no dudes en preguntarme.\nLas funciones que tengo disponibles a parte de ayudarte con cualquier consulta son las siguientes.\n📌 Puedo crear todos los sticker que quieras, solo mándame una imagen y luego la respondes con la palabra 'sticker'\n📌 Si no sabes el nombre de una canción, solo basta que grabes unos 5 segundos y me lo envíes y despues respondas a ese audio con la palabra 'shazam' y buscaré para ti el nombre de esa canción.\n📌 Puedo crear imágenes a partir de un texto o una idea, puedes decirme 'crea' y alguna idea que tengas e intentaré dibujarla por ti.\nEjemplo: crea una tarde lluviosa a la orilla de una playa\n📌Si escribes la palabra 'estado' puedes ver la información de tu perfil en el bot.\n\nSi ya viste que puedo hacer, solo dime por dónde quieres empezar 😊",
-        "timestamp": 1696825262748
-      },
-      {
-        "role": "assistant",
-        "content": "¡Hola! ¿En qué puedo ayudarte hoy? Puedo ofrecerte diferentes servicios, como crear stickers a partir de una imagen, identificar canciones por medio de un fragmento de audio, crear imágenes a partir de un texto o idea, y mostrar información de tu perfil. Si tienes alguna pregunta o necesitas alguna de estas funciones, estoy aquí para ayudarte.",
-        "timestamp": 1696825262750
-      }
-    ]
-  },
-  "573508770421@s.whatsapp.net": {
-    "id": "5qeIwL",
-    "name": "ian940102",
-    "pass": "dark940102",
-    "premium": false,
-    "plan": "oro",
-    "planStartDate": "2023-10-10T20:23:25.096Z",
-    "planEndDate": "2024-10-10T20:23:25.096Z",
+    "planStartDate": "2023-10-12T21:38:44.820Z",
+    "planEndDate": "2024-10-12T21:38:44.820Z",
     "block": false,
     "usage": 0,
     "cash": 10,

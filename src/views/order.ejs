@@ -1,20 +1,5 @@
-<!DOCTYPE html>
+<%- include('src/up') %>
 
-<html lang="es">
-
-<head>
-  <%- include('src/head') %>
-</head>
-<body data-senna="data-senna" data-senna-surface="data-senna-surface">
-  <div class="senna-loading-bar"></div>
-  
-  <header>
-    <h1><a href="/" title="DrkBot"><span id="header"><%= botName %></span></a></h1>
-    <%- include('src/header') %>
-  </header>
-  
-  <div class="container">
-    <div class="grid">
       <!-- Contenido -->
       <div class="col-7_sm-12">
         <h2>ORDEN</h2>
@@ -52,14 +37,4 @@
         </div>
       </div>
       
-      <!-- Informacion General -->
-      <div class="col-5_sm-12">
-        <%- include('src/end') %>
-      </div>
-    </div>
-  </div>
-
-  <footer>© DrkBot</footer>
-  <script src="/assets/js/main.js" type="text/javascript"></script>
-</body>
-</html>
+<%- include('src/down') %>

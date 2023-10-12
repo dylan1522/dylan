@@ -276,6 +276,24 @@ h1 {
   background: 0 0;
   transition: 0.3s;
 }
+.pagination {
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.pagination button {
+  margin: -5px;
+  background: #000;
+  color: #fff;
+  border: 2px solid #212121;
+  font-size: 14px;
+  padding: 5px 10px;
+}
+.pagination button:hover {
+  color: red;
+  transition: 0.3s;
+}
 .dev td {
   padding-bottom: 10px;
   font-size: 13px;

@@ -9,7 +9,6 @@ const port = process.env.PORT || 3000;
 const { User, addUserKey, totalHit } = require("./data");
 const myLang = require("../language").getString;
 const Config = require("../config");
-//JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'package.json'), 'utf8')).name;
 const botName = Config.BOT_NAME;
 
 app.use(session({
@@ -25,6 +24,7 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "public")));
 app.use((req, res, next) => {
   res.locals.sesionIniciada = req.session.sesionIniciada || false;
+  res.locals.isAdmin = req.session.isAdmin || false;
   next();
 });
 
@@ -38,10 +38,10 @@ app.get('/lib/rnd', (req, res) => {
 
 /* rutas iniciales */
 app.get("/", (req, res) => {
-  res.render("index", { botName });
+  res.render("index", { botName, pageTitle: 'Inicio' });
 });
 app.get("/planes", (req, res) => {
-  res.render("pricing", { botName });
+  res.render("pricing", { botName, pageTitle: 'Planes' });
 });
 
 /* rutas formulario */
@@ -49,22 +49,24 @@ app.get("/login", (req, res) => {
   if (req.session && req.session.sesionIniciada) {
     res.redirect("/usuario");
   } else {
-    res.render("login", { botName });
+    res.render("login", { botName, pageTitle: 'Login' });
   }
 });
 app.get("/registro", (req, res) => {
   if (req.session && req.session.sesionIniciada) {
     res.redirect("/usuario");
   } else {
-    res.render("register", { botName });
+    res.render("register", { botName, pageTitle: 'Registro' });
   }
 });
 
-app.post("/login", (req, res) => {
+app.post("/login", async (req, res) => {
   const phone = req.body.phone;
   const password = req.body.password;
   let noPlus = phone.replace(/\+/g, '');
   let checkUser = User.show(noPlus+'@s.whatsapp.net');
+  let bot = await client.decodeJid(client.user.id.split(':')[0]);
+
   if (!checkUser) {
     return res.json({
       icon: 'danger',
@@ -82,7 +84,10 @@ app.post("/login", (req, res) => {
       ruta: ''
     })
   } else {
-    req.session.username = noPlus
+    req.session.username = noPlus;
+    if (noPlus === bot) {
+      req.session.isAdmin = true;
+    }
     req.session.sesionIniciada = true;
     
     const destino = req.session.destino || "/usuario";
@@ -137,7 +142,7 @@ app.post("/registro", async (req, res) => {
   }
 });
 
-/* ingreso usuario */
+/* verificación usuario */
 function requireLogin(req, res, next) {
   if (req.session && req.session.sesionIniciada) {
     return next();
@@ -145,7 +150,17 @@ function requireLogin(req, res, next) {
     req.session.destino = req.originalUrl;
     res.redirect("/login");
   }
+};
+async function requireAdmin(req, res, next) {
+  let user = req.session.username;
+  let bot = await client.decodeJid(client.user.id.split(':')[0]);
+  if (user === bot) {
+    next();
+  } else {
+    res.status(403).render("errores", { botName, pageTitle: 'Acceso Denegado', errorMessage: "403 Acceso Denegado" });
+  }
 }
+
 app.get("/usuario", requireLogin, async (req, res) => {
   res.set("Cache-Control", "no-cache, no-store, must-revalidate");
   res.set("Pragma", "no-cache");
@@ -178,8 +193,7 @@ app.get("/usuario", requireLogin, async (req, res) => {
   } catch {
     ppuser = "/lib/rnd"
   }
-  //let hidePassword = (password) => '*'.repeat(password.length);
-  res.render("user", { profile, ppuser, botName });
+  res.render("user", { botName, pageTitle: 'Perfil', profile, ppuser });
 });
 app.get("/orden", requireLogin, async (req, res) => {
   res.set("Cache-Control", "no-cache, no-store, must-revalidate");
@@ -227,34 +241,37 @@ app.get("/orden", requireLogin, async (req, res) => {
 
   res.render('order', {
     botName,
+    pageTitle: 'Orden',
     plan: planInfo,
     usuario: checkUser.number.split('@')[0],
     verifyPlan
   });
 });
-app.get("/xix2j4av", async (req, res) => {
+app.get("/configure", requireLogin, requireAdmin, async (req, res) => {
   let bot = await client.decodeJid(client.user.id.split(':')[0]);
-  let totalUsers = Object.keys(database).length
+  let totalUsers = Object.keys(database).length;
+  let isAdmin = req.session.isAdmin;
 
   const page = parseInt(req.query.page) || 1;
   const itemsPerPage = 10;
   const startIndex = (page - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const usersToDisplay = Object.values(database).slice(startIndex, endIndex);
-
+  const usersToDisplay = Object.keys(database).slice(startIndex, endIndex);
   const totalPages = Math.ceil(Object.keys(database).length / itemsPerPage);
-  
-  //res.render("bot", { users: database })
+
   res.render("bot", {
     botName,
+    pageTitle: 'Administracion',
     bot,
+    isAdmin,
     totalUsers,
     usos: totalHit(),
     users: usersToDisplay,
     totalPages,
     currentPage: page
   });
-})
+});
+
 app.get("/logout", (req, res) => {
   req.session.destroy(() => {
     res.redirect("/");
@@ -266,7 +283,7 @@ app.set("view engine", "ejs");
 
 /* 404 */
 app.use((req, res, next) => {
-  res.status(404).render("404", { botName });
+  res.status(404).render("errores", { botName, pageTitle: '....?', errorMessage: "404 Pagina no encontrada" });
 });
 
 app.listen(port, () => {

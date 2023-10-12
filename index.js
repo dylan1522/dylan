@@ -219,7 +219,7 @@ async function startMybot() {
             myBot.sendImage(myBot.user.id, global.thumb, 'Bot Online')
             if(!User.check(myBot.decodeJid(myBot.user.id))) {
               new User(myBot.decodeJid(myBot.user.id), Config.BOT_NAME)
-              User.activatePremiumPlan(myBot.decodeJid(myBot.user.id), 'c');
+              User.activatePremiumPlan(myBot.decodeJid(myBot.user.id), 'oro');
             }
             log('Connected...', update)
           }
@@ -282,6 +282,24 @@ async function startMybot() {
     myBot.reply = (jid, text = '', quoted, options) => {
         return Buffer.isBuffer(text) ? myBot.sendFile(jid, text, 'file', '', quoted, false, options) : myBot.sendMessage(jid, { contextInfo: { mentionedJid: myBot.parseMention(text)}, ...options, text }, { quoted, ...options })
         //return Buffer.isBuffer(text) ? myBot.sendFile(jid, text, 'file', '', quoted, false, options) : myBot.sendMessage(jid, { ...options, text }, { quoted, ...options })
+    }
+    
+        /**
+    * @param {*} jid
+    * @param {*} text
+    * @param {*} editedText
+    * @param {*} quoted
+    */
+    myBot.editMessage = async (jid, text, seconds, eT1, eT2, eT3, end, quoted) => {
+     const { key } = await myBot.sendMessage(jid, { text: text }, { quoted: quoted ? quoted : m}); 
+     await sleep(1000 * seconds);
+     await myBot.sendMessage(m.chat, { text: eT1, edit: key }); 
+     await sleep(1000 * seconds);
+     await myBot.sendMessage(m.chat, { text: eT2, edit: key }); 
+     await sleep(1000 * seconds);
+     await myBot.sendMessage(m.chat, { text: eT3, edit: key }); 
+     await sleep(1000 * seconds);
+     await myBot.sendMessage(m.chat, { text: end, edit: key });
     }
 
       /** Resize Image

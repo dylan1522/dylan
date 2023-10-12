@@ -90,7 +90,7 @@ global.reload = (path) => {
 
 // env ## not modify ##
 module.exports = {
-  BOT_NAME: process.env.BOT_NAME === undefined ? "🤖 DarkBox" : process.env.BOT_NAME,
+  BOT_NAME: process.env.BOT_NAME === undefined ? "🤖 DrkBot" : process.env.BOT_NAME,
   BRANCH: "main",
   HANDLER: process.env.HANDLER === undefined ? "^[.]" : process.env.HANDLER,
   WELCOME: process.env.WELCOME === undefined ? "true" : process.env.WELCOME,
