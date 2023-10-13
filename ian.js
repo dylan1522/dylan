@@ -78,7 +78,7 @@ module.exports = myBot = async (myBot, m, chatUpdate, store) => {
       if (regUser === false) {
         /*new User(m.sender, pushname)
         */
-        myBot.sendText(m.chat, 'Ingresa a la siguiente url y registrate\nhttp://localhost:3000/registro')
+        myBot.sendText(m.chat, 'Ingresa a la siguiente url y registrate\nhttps://drk-bot.com.es/registro')
       } else if (cmd) {
         if (cmd.owner && !isCreator) return //myBot.sendText(m.chat, myLang("global").owner);
         else if (checkUser.block == true) return myBot.sendText(m.chat, myLang("global").block);
