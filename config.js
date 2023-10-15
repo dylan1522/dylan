@@ -103,7 +103,7 @@ module.exports = {
   VERSION: process.env.VERSION === undefined ? JSON.parse(readFileSync("./package.json")).version : process.env.VERSION,
   WORKTYPE: process.env.WORKTYPE === undefined ? "public" : process.env.WORKTYPE,
   OPEN_AI_KEY: process.env.OPEN_AI_KEY === undefined ? "" : process.env.OPEN_AI_KEY,
-  OPEN_AI_KEY: process.env.DOMINII === undefined ? "https://drk-bot.com.es/" : process.env.DOMINIO,
+  DOMINIO: process.env.DOMINIO === undefined ? "https://drk-bot.com.es/" : process.env.DOMINIO,
 };
 // end env
 
