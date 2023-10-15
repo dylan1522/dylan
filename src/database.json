@@ -2,14 +2,25 @@
   "573046793853@s.whatsapp.net": {
     "id": "NBwnPZ",
     "name": "🤖 DrkBot",
-    "pass": "",
+    "pass": "D@rk940102",
     "premium": true,
     "plan": "oro",
     "planStartDate": "2023-10-12T21:38:44.820Z",
     "planEndDate": "2024-10-12T21:38:44.820Z",
     "block": false,
-    "usage": 0,
+    "usage": 1,
     "cash": 10,
-    "conversationHistory": []
+    "conversationHistory": [
+      {
+        "role": "user",
+        "content": "hola",
+        "timestamp": 1697238356051
+      },
+      {
+        "role": "assistant",
+        "content": "¡Hola! ¿En qué puedo ayudarte hoy?",
+        "timestamp": 1697238356051
+      }
+    ]
   }
 }
