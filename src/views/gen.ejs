@@ -1,0 +1,33 @@
+<%- include('src/up') %>
+
+      <!-- Contenido -->
+      <div class="col-7_sm-12">
+        <h2>Generador de Links de WhatsApp</h2>
+        <form id="app-gen-url" method="get">
+          <table>
+            <td>
+              <label for="get-link-phone">Introduce el número de teléfono sin espacios</label>
+              <input type="tel" maxlength="256" id="get-link-phone" name="get-link-phone-2" class="bax" placeholder="Teléfono" required> <span class="highlight"></span>
+              <textarea id="get-link-message" name="field" maxlength="5000" placeholder="Introduce un mensaje predeterminado"/></textarea> <span class="highlight"></span>
+              <span class="bar"></span>
+            </td>
+          <tr>
+            <td>
+              <button class="btn" id="get-link-submit"> Generar </button>
+            </td>
+          </table>
+        </form>
+        <br>
+        <br>
+        <br>
+        <div class="alert-success link-wa-generate">
+          <div id="get-link-result" class="link-result">https://api.whatsapp.com/</div>
+          <div class="button-link-wa">
+            <a id="get-link-open" href="#" target="_blank" class="open-button"><i class="bi bi-box-arrow-up-right"></i></a>
+            <a id="get-link-copy" href="#" target="_blank" class="copy-button"><i class="bi bi-copy"></i></a>
+          </div>
+        </div>
+
+      </div>
+      
+<%- include('src/down') %>

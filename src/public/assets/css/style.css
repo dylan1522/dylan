@@ -94,6 +94,46 @@ header .act,
 header h1 {
   position: relative;
 }
+#get-link-message {
+  height: 150px;
+}
+.link-wa-generate {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 10px;
+  padding-left: 10px;
+  margin: 10px;
+  height: 80px;
+}
+.link-result {
+  flex: 1;
+  margin-right: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.button-link-wa {
+  display: flex;
+}
+.button-link-wa a i {
+  margin-left: 10px;
+  color: black;
+  font-size: 25px;
+}
+.open-button, .copy-button {
+  width: 80px;
+  height: 80px;
+  background: rgba(102,227,153,0.71);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 2px;
+}
+.copy-button {
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
 @keyframes shift-rightwards {
   0% {
     transform: translateX(-100%);

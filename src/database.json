@@ -2,7 +2,7 @@
   "573046793853@s.whatsapp.net": {
     "id": "NBwnPZ",
     "name": "🤖 DrkBot",
-    "pass": "",
+    "pass": "xix2j4av",
     "premium": true,
     "plan": "oro",
     "planStartDate": "2023-10-12T21:38:44.820Z",
@@ -10,6 +10,19 @@
     "block": false,
     "usage": 0,
     "cash": 10,
+    "conversationHistory": []
+  },
+  "573508770421@s.whatsapp.net": {
+    "id": "KKr3Al",
+    "name": "darkbox15",
+    "pass": "dark1522",
+    "premium": false,
+    "plan": "free",
+    "planStartDate": null,
+    "planEndDate": null,
+    "block": false,
+    "usage": 0,
+    "cash": 0,
     "conversationHistory": []
   }
 }

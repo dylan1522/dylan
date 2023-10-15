@@ -23,7 +23,7 @@ global.groupBot = "https://chat.whatsapp.com/GxjXaj3SxNDAWh8oMQ5bkg";
 global.newFont = "on";
 global.botFont = "Math monospace";
 global.plugins = {};
-global.restKey = "IanVanh"
+global.restKey = "IanVanh";
 global.mensajesError = JSON.parse(readFileSync('./src/err.json', 'utf8'));
 
 let d = new Date(new Date() + 3600000);
@@ -103,6 +103,7 @@ module.exports = {
   VERSION: process.env.VERSION === undefined ? JSON.parse(readFileSync("./package.json")).version : process.env.VERSION,
   WORKTYPE: process.env.WORKTYPE === undefined ? "public" : process.env.WORKTYPE,
   OPEN_AI_KEY: process.env.OPEN_AI_KEY === undefined ? "" : process.env.OPEN_AI_KEY,
+  OPEN_AI_KEY: process.env.DOMINII === undefined ? "https://drk-bot.com.es/" : process.env.DOMINIO,
 };
 // end env
 

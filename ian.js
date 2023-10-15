@@ -78,13 +78,13 @@ module.exports = myBot = async (myBot, m, chatUpdate, store) => {
       if (regUser === false) {
         /*new User(m.sender, pushname)
         */
-        myBot.sendText(m.chat, 'Ingresa a la siguiente url y registrate\nhttps://drk-bot.com.es/registro')
+        myBot.sendText(m.chat, `Ingresa a la siguiente url y registrate\n${Config.DOMINIO}registro`)
       } else if (cmd) {
         if (cmd.owner && !isCreator) return //myBot.sendText(m.chat, myLang("global").owner);
         else if (checkUser.block == true) return myBot.sendText(m.chat, myLang("global").block);
         else if (cmd.isPrivate && m.isGroup) return
         else if (checkUser.cash < cmd.check.pts) {
-          return myBot.sendImage(m.chat, global.planes, myLang("global").no_points) }
+          return myBot.sendText(m.chat, myLang("global").no_points.replace("{}", Config.DOMINIO)) }
         await cmd.handler(m, {
           myBot,
           myLang,
@@ -106,7 +106,7 @@ module.exports = myBot = async (myBot, m, chatUpdate, store) => {
           if (checkUser.block == true) return myBot.sendText(m.chat, myLang("global").block);
           else if (event.isPrivate && m.isGroup) return
           else if (checkUser.cash < event.check.pts) {
-            return myBot.sendImage(m.chat, global.planes, myLang("global").no_points) }
+            return myBot.sendImage(m.chat, myLang("global").no_points.replace("{}", Config.DOMINIO)) }
           await event.handler(m, {
             myBot, myLang, budy, pushname, User, checkUser,
           })

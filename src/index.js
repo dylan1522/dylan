@@ -43,6 +43,9 @@ app.get("/", (req, res) => {
 app.get("/planes", (req, res) => {
   res.render("pricing", { botName, pageTitle: 'Planes' });
 });
+app.get("/generador-link-whatsapp", (req, res) => {
+  res.render("gen", { botName, pageTitle: 'Planes' });
+});
 
 /* rutas formulario */
 app.get("/login", (req, res) => {
@@ -208,14 +211,14 @@ app.get("/orden", requireLogin, async (req, res) => {
   if (plan === 'bronce') {
     planInfo = {
       name: 'Bronce',
-      price: '$ 1',
+      price: '$ 1.5',
       use: 'Ilimitado',
       days: '30 Dias'
     };
   } else if (plan === 'plata') {
     planInfo = {
       name: 'Plata',
-      price: '$ 5.5',
+      price: '$ 6',
       use: 'Ilimitado',
       days: '180 Dias'
     };
