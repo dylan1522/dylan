@@ -84,6 +84,6 @@ deploymentTarget = "cloudrun"
 ignorePorts = false
 build = ["sh", "-c", "yarn"]
 run = ["sh", "-c", "npm start"]
-run = "npm start"
+run = ["node", "index.js"]
 deploymentTarget = "cloudrun"
 ignorePorts = false
