@@ -80,6 +80,14 @@ pattern = "**/{*.js,*.jsx,*.ts,*.tsx,*.json}"
 start = "typescript-language-server --stdio"
 
 [deployment]
+<<<<<<< HEAD
 run = ["node", "index.js"]
+=======
+deploymentTarget = "cloudrun"
+ignorePorts = false
+build = ["sh", "-c", "yarn"]
+run = ["sh", "-c", "npm start"]
+run = "npm start"
+>>>>>>> 77088719befc108e11ffb7a10726b75827bf0cf1
 deploymentTarget = "cloudrun"
 ignorePorts = false
