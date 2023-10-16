@@ -27,7 +27,7 @@
               <td><%= plan.days %></td>
             </table>
             <% if(verifyPlan === true) { %>
-              <a href="https://wa.me/573508770421?text=Plan%20<%= plan.name %>" target="_blank"><button> Ordenar ➠ </button></a>
+              <a href="https://api.whatsapp.com/send?phone=573508770421&text=*Orden%3A*+Plan+<%= plan.name %>%0A*Numero%3A*+<%= usuario %>" target="_blank"><button> Ordenar ➠ </button></a>
             <% } else { %>
               <button> No Permitido </button>
             <% } %>
