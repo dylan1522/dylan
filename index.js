@@ -58,8 +58,8 @@ const readPlugins = () => {
   let pluginsDir = path.join(__dirname, "./plugins");
   let pluginPath = fs.readdirSync(pluginsDir)
   for (let fold of pluginPath) {
-    for (let filename of fs.readdirSync(__dirname + `/plugins/${fold}`)) {
-      plugins = require(path.join(__dirname + `/plugins/${fold}`, filename));
+    for (let filename of fs.readdirSync(__dirname + `plugins/${fold}`)) {
+      plugins = require(path.join(__dirname + `plugins/${fold}`, filename));
       plugins.function ? (attr.functions[filename] = plugins) : (attr.commands[filename] = plugins);
     }
   }

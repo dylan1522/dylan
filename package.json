@@ -48,6 +48,7 @@
     "lodash": "^4.17.21",
     "mime-types": "^2.1.35",
     "moment-timezone": "^0.5.34",
+    "mongoose": "^7.6.2",
     "node-cron": "^3.0.0",
     "node-fetch": "^2.6.1",
     "node-webpmux": "^3.1.0",
