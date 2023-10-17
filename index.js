@@ -55,11 +55,11 @@ attr.commands = new Map();
 attr.functions = new Map();
 
 const readPlugins = () => {
-  let pluginsDir = path.join(__dirname, "./plugins");
+  let pluginsDir = "./plugins";
   let pluginPath = fs.readdirSync(pluginsDir)
   for (let fold of pluginPath) {
-    for (let filename of fs.readdirSync(__dirname + `plugins/${fold}`)) {
-      plugins = require(path.join(__dirname + `plugins/${fold}`, filename));
+    for (let filename of fs.readdirSync(`plugins/${fold}`)) {
+      plugins = require(`plugins/${fold}/${filename}`);
       plugins.function ? (attr.functions[filename] = plugins) : (attr.commands[filename] = plugins);
     }
   }
