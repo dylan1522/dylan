@@ -1,41 +1,36 @@
 {
   "573046793853@s.whatsapp.net": {
-    "id": "NBwnPZ",
+    "id": "cP92PV",
     "name": "🤖 DrkBot",
-    "pass": "D@rk940102",
-    "pass": "xix2j4av",
-    "premium": true,
-    "plan": "oro",
-    "planStartDate": "2023-10-12T21:38:44.820Z",
-    "planEndDate": "2024-10-12T21:38:44.820Z",
-    "block": false,
-    "usage": 1,
-    "cash": 10,
-    "conversationHistory": [
-      {
-        "role": "user",
-        "content": "hola",
-        "timestamp": 1697238356051
-      },
-      {
-        "role": "assistant",
-        "content": "¡Hola! ¿En qué puedo ayudarte hoy?",
-        "timestamp": 1697238356051
-      }
-    ]
-    "conversationHistory": []
-  },
-  "573508770421@s.whatsapp.net": {
-    "id": "KKr3Al",
-    "name": "darkbox15",
-    "pass": "dark1522",
+    "pass": "",
     "premium": false,
     "plan": "free",
     "planStartDate": null,
     "planEndDate": null,
     "block": false,
-    "usage": 0,
-    "cash": 0,
-    "conversationHistory": []
+    "usage": 2,
+    "cash": 8,
+    "conversationHistory": [
+      {
+        "role": "user",
+        "content": "distancia de la luna a la tierra?",
+        "timestamp": 1697557969143
+      },
+      {
+        "role": "assistant",
+        "content": "La distancia promedio entre la Luna y la Tierra es de aproximadamente 384,400 kilómetros. Sin embargo, esta distancia puede variar debido a la órbita elíptica de la Luna alrededor de la Tierra. En su punto más cercano, conocido como perigeo, la Luna puede estar a unos 363,300 kilómetros de distancia. Por otro lado, en su punto más lejano, conocido como apogeo, la Luna puede estar a unos 405,500 kilómetros de distancia. Es importante tener en cuenta que estas cifras son aproximadas y pueden variar ligeramente debido a varias influencias gravitacionales.",
+        "timestamp": 1697557969146
+      },
+      {
+        "role": "user",
+        "content": "es posible apuntar con un laser a la luna?",
+        "timestamp": 1697558029374
+      },
+      {
+        "role": "assistant",
+        "content": "Técnicamente hablando, sí es posible apuntar con un láser a la Luna. Los láseres son dispositivos que emiten luz coherente y concentrada en un haz muy estrecho. Esto significa que el haz de luz se mantiene relativamente angosto a medida que se aleja de la fuente.\n\nSin embargo, debido a la gran distancia entre la Tierra y la Luna, hay algunos factores a considerar. Uno de los desafíos principales es la dispersión de la luz a medida que viaja a través de la atmósfera terrestre. Esto significa que cuanto más lejos se encuentre el objeto que se desea iluminar, mayor será la dispersión y menor será la intensidad de la luz que llegue a su destino. Además, la atmósfera también puede causar alteraciones en la trayectoria del haz de láser, lo que dificulta aún más el enfoque preciso en un objeto distante como la Luna.\n\nA pesar de estos desafíos, se han realizado experimentos exitosos de apuntar láseres a la Luna utilizando instrumentos y tecnologías especializadas. Estos experimentos suelen involucrar láseres de alta potencia y sistemas de seguimiento precisos para lograr un enfoque adecuado.\n\nEn resumen, apuntar un láser a la Luna es posible en teoría, pero en la práctica requeriría equipos especializados y condiciones favorables para lograr un enfoque preciso en un objeto tan distante.",
+        "timestamp": 1697558029376
+      }
+    ]
   }
 }

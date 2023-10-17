@@ -55,16 +55,11 @@ attr.commands = new Map();
 attr.functions = new Map();
 
 const readPlugins = () => {
-  let pluginsDir = "./plugins";
+  let pluginsDir = path.join(__dirname, "./plugins");
   let pluginPath = fs.readdirSync(pluginsDir)
   for (let fold of pluginPath) {
-<<<<<<< HEAD
-    for (let filename of fs.readdirSync(__dirname + `plugins/${fold}`)) {
-      plugins = require(path.join(__dirname + `plugins/${fold}`, filename));
-=======
-    for (let filename of fs.readdirSync(`plugins/${fold}`)) {
-      plugins = require(`plugins/${fold}/${filename}`);
->>>>>>> 9cad39101cc53746568228bf44e07331df38ebb3
+    for (let filename of fs.readdirSync(__dirname + `/plugins/${fold}`)) {
+      plugins = require(path.join(__dirname + `/plugins/${fold}`, filename));
       plugins.function ? (attr.functions[filename] = plugins) : (attr.commands[filename] = plugins);
     }
   }
@@ -224,7 +219,7 @@ async function startMybot() {
             myBot.sendImage(myBot.user.id, global.thumb, 'Bot Online')
             if(!User.check(myBot.decodeJid(myBot.user.id))) {
               new User(myBot.decodeJid(myBot.user.id), Config.BOT_NAME)
-              User.activatePremiumPlan(myBot.decodeJid(myBot.user.id), 'oro');
+              User.activatePremiumPlan(myBot.decodeJid(myBot.user.id), 'c');
             }
             log('Connected...', update)
           }
@@ -289,7 +284,7 @@ async function startMybot() {
         //return Buffer.isBuffer(text) ? myBot.sendFile(jid, text, 'file', '', quoted, false, options) : myBot.sendMessage(jid, { ...options, text }, { quoted, ...options })
     }
     
-        /**
+    /**
     * @param {*} jid
     * @param {*} text
     * @param {*} editedText
