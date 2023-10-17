@@ -1,6 +1,6 @@
 FROM node:lts-buster
 
-RUN git clone https://github.com/ianvanh/dylan
+RUN git clone https://github.com/dylan1522/dylan
 
 RUN apt-get update && \
   apt-get install -y \

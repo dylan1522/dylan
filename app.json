@@ -1,0 +1,35 @@
+{
+  "name": "dylan-chat (DrkBot)",
+  "description": " Whatsapp bot.",
+  "keywords": [
+    "whatsapp bot"
+  ],
+  "repository": "https://github.com/dylan1522/dylan",
+  "stack": "container",
+  "env": {
+    "OPEN_AI_KEY": {
+      "description": "your key OpenAI",
+      "required": false,
+      "value": ""
+    },
+    "PASSWORD": {
+      "description": "password session",
+      "required": true,
+      "value": ""
+    }
+  },
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    },
+    {
+      "url": "https://github.com/DuckyTeam/heroku-buildpack-imagemagick.git"
+    },
+    {
+      "url": "https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest"
+    },
+    {
+      "url": "https://github.com/clhuang/heroku-buildpack-webp-binaries.git"
+    }
+  ]
+}
