@@ -37,16 +37,6 @@ const store = makeInMemoryStore({ logger: pino().child({ level: 'silent', stream
 
 global.opts = new Object(yargs(process.argv.slice(2)).exitProcess(false).parse())
 
-/*global.databaseFile = "./src/database.json";
-global.database = {};
-
-try {
-  database = JSON.parse(fs.readFileSync(databaseFile));
-} catch (error) {
-  fs.writeFileSync(databaseFile, JSON.stringify(database, null, 2));
-  log(pint(bgPint("Base de datos creada con exito", "orange"), "white."))
-}*/
-
 global.attr = {};
 attr.commands = new Map();
 attr.functions = new Map();
@@ -64,6 +54,15 @@ const readPlugins = () => {
 };
 readPlugins();
 
+setInterval(() => {
+  fetch(`${Config.DOMINIO}/ping`).then(response => {
+    if (response.ok) {
+      console.log('Ping enviado para mantener la actividad.');
+    } else {
+      console.error('Error al enviar el ping.');
+    }
+  });
+}, 4 * 60 * 1000);
 
 const folderPath = './temp';
 fs.watch(folderPath, (eventType, filename) => {
@@ -83,9 +82,9 @@ async function startMybot() {
       browser: ["DrkBot", "Safari", "13.0.0"],
       auth: state
     })
-    global.client = myBot
+    global.client = myBot;
 
-    store.bind(myBot.ev)
+    store.bind(myBot.ev);
 
     // anticall auto block
     /*myBot.ws.on('CB:call', async (json) => {
@@ -116,7 +115,7 @@ async function startMybot() {
       } catch (err) {
         log(pint(err, 'red.'))
       }
-    })
+    });
 
     myBot.ev.on('group-participants.update', async (room) => {})
 	
@@ -126,14 +125,14 @@ async function startMybot() {
             let decode = jidDecode(jid) || {}
             return decode.user && decode.server && decode.user + '@' + decode.server || jid
         } else return jid
-    }
+    };
     
     myBot.ev.on('contacts.update', update => {
         for (let contact of update) {
             let id = myBot.decodeJid(contact.id)
             if (store && store.contacts) store.contacts[id] = { id, name: contact.notify }
         }
-    })
+    });
 
     myBot.getName = (jid, withoutContact = false) => {
         id = myBot.decodeJid(jid)

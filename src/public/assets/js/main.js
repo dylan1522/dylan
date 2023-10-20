@@ -1,3 +1,17 @@
+function ping() {
+  setInterval(function() {
+    fetch('/ping').then(response => {
+      if (response.ok) {
+        console.log('Actividad mantenida.');
+      } else {
+        console.error('Error al mantener la actividad.');
+      }
+    });
+  }, 4 * 60 * 1000);
+}
+ping();
+
+
 const previusTitle = document.title
 window.addEventListener('blur', () => {
   previousTitle = document.title
