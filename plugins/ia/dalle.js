@@ -5,10 +5,10 @@ module.exports = {
   cmd: /^(crea)/i,
   category: 'ia',
   desc: 'inteligencia artificial para creación de imagenes.',
-  register: true,
   isPrivate: true,
   check: { pts: 1 },
-  async handler(m, {myBot, myLang, command, text, User, checkUser}) {
+  async handler(m, {myBot, myLang, command, text, User}) {
+    let checkUser = await User.show(m.sender);
     let isPremium = checkUser.premium ? 0 : -1;
     if(!text) return m.reply("Que imagen deseas crear?\nEscribe crea seguido de lo que quieres.");
     myBot.sendReact(m.chat, "🎨", m.key);
@@ -25,8 +25,8 @@ module.exports = {
           }
       });
       myBot.editMessage(m.chat, 'Dame un momento estoy dibujando!', 3, '30% del dibujo', '60% del dibujo', '90% del dibujo', 'Dibujo Terminado, Enviando....')
-      await myBot.sendImage(m.chat, response.data.data[0].url, Config.BOT_NAME)
-      User.counter(m.sender, { usage: 1, cash: isPremium });
+      await myBot.sendImage(m.chat, response.data.data[0].url, Config.BOT_NAME);
+      await User.counter(m.sender, 1, isPremium);
     } catch (e) {
       myBot.sendText(m.chat, msgErr())
       throw e

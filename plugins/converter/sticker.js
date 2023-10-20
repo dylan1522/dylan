@@ -6,7 +6,6 @@ module.exports = {
   cmd: /^(sticker)/i,
   category: 'convertidor',
   desc: 'convierte imagenes y videos cortos a sticker.',
-  register: true,
   check: { pts: null },
   async handler(m, {myBot, myLang, text, mime, prefix, command, User}) {
     if (!m.quoted) return m.reply(myLang("sticker").quot.replace("{}", command));
@@ -21,7 +20,7 @@ module.exports = {
         await myBot.sendMessage(m.chat, {
           sticker: encmedia
          }, { quoted: m });
-      User.counter(m.sender, { usage: 1 });
+      await User.counter(m.sender, 1);
     } catch (e) {
       myBot.sendText(m.chat, msgErr())
       throw e

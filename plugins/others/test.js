@@ -8,9 +8,9 @@ module.exports = {
   cmd: /^(test)/i,
   ignored: true,
   owner: true,
-  register: true,
-  check: { pts: 1 },
+  check: { pts: 0 },
   async handler(m, {myBot, text, User}) {
-    log(myBot)
+    let check = await User.show(m.sender)
+    console.log(check)
   }
 };

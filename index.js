@@ -5,7 +5,7 @@
   you may not use this file except in compliance with the License.
 */
 
-require('./config'), require('./src/index')
+require('./config'), require('./src/index'), require('./lib/mongoDB')
 const { default: myBotConnect, DisconnectReason, generateWAMessageFromContent, downloadContentFromMessage, makeInMemoryStore, jidDecode, proto, generateWAMessage, getContentType } = require("@adiwajshing/baileys")
 //const { DisconnectReason, generateWAMessageFromContent, downloadContentFromMessage, makeInMemoryStore, jidDecode, proto, generateWAMessage, getContentType } = require("@adiwajshing/baileys")
 const { useSingleFileAuthState } = require('./lib/s-auth-state')
@@ -37,7 +37,7 @@ const store = makeInMemoryStore({ logger: pino().child({ level: 'silent', stream
 
 global.opts = new Object(yargs(process.argv.slice(2)).exitProcess(false).parse())
 
-global.databaseFile = "./src/database.json";
+/*global.databaseFile = "./src/database.json";
 global.database = {};
 
 try {
@@ -45,10 +45,7 @@ try {
 } catch (error) {
   fs.writeFileSync(databaseFile, JSON.stringify(database, null, 2));
   log(pint(bgPint("Base de datos creada con exito", "orange"), "white."))
-}
-
-
-//global.component = new (require('@neoxr/neoxr-js'))
+}*/
 
 global.attr = {};
 attr.commands = new Map();
@@ -217,9 +214,10 @@ async function startMybot() {
           }
           if (update.connection == "open" || update.receivedPendingNotifications == "true") {
             myBot.sendImage(myBot.user.id, global.thumb, 'Bot Online')
-            if(!User.check(myBot.decodeJid(myBot.user.id))) {
-              new User(myBot.decodeJid(myBot.user.id), Config.BOT_NAME)
-              User.activatePremiumPlan(myBot.decodeJid(myBot.user.id), 'c');
+            if (await !User.check(myBot.decodeJid(myBot.user.id))) {
+              const iniEntry = new User(myBot.decodeJid(myBot.user.id), Config.BOT_NAME, process.env.PASSWORD);
+              await iniEntry.save();
+              await User.activatePremiumPlan(myBot.decodeJid(myBot.user.id), 'oro');
             }
             log('Connected...', update)
           }

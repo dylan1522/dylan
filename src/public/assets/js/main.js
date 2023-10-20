@@ -16,8 +16,14 @@ function run(e, t, r) {
 
 const input = document.querySelector("#phone");
 const iti = window.intlTelInput(input, {
-  utilsScript:
-    "https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/js/utils.js",
+  utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/js/utils.js",
+  initialCountry: "auto",
+  geoIpLookup: function(callback) {
+    fetch("https://ipapi.co/json")
+      .then(function(res) { return res.json(); })
+      .then(function(data) { callback(data.country_code); })
+      .catch(function() { callback("us"); });
+  }
 });
 
   $(document).ready(function () {

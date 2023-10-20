@@ -23,11 +23,10 @@
             </div>
           </div>
           <h2>Usuarios</h2>
-        <% for (const phone of users) { %>
-        <% const user = database[phone]; %>
+        <% for (const user of users) { %>
           <div class="pricing">
             <h2 class="package"><%= user.name %></h2>
-            <span class="limit"><%= phone.split('@')[0] %></span></br>
+            <span class="limit"><%= user.phone.split('@')[0] %></span><br>
             <span class="limit">Plan: <%= user.plan %></span>
             <br>
           </div>

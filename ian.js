@@ -39,9 +39,9 @@ module.exports = myBot = async (myBot, m, chatUpdate, store) => {
     const isMedia = /image|video|sticker|audio/.test(mime);
 
     // New Functions BD
-    const { User, addUserKey, totalHit } = require("./src/data");
-    const regUser = User.check(m.sender);
-    const checkUser = User.show(m.sender);
+    const { User, addUserKey } = require("./src/data");
+    const regUser = await User.check(m.sender);
+    const checkUser = await User.show(m.sender);
 
     // Group
     const groupMetadata = m.isGroup ? await myBot.groupMetadata(m.chat).catch((e) => {}) : "";
@@ -78,7 +78,7 @@ module.exports = myBot = async (myBot, m, chatUpdate, store) => {
       if (regUser === false) {
         /*new User(m.sender, pushname)
         */
-        myBot.sendText(m.chat, `Ingresa a la siguiente url y registrate\n${Config.DOMINIO}registro`)
+        myBot.sendText(m.chat, `Ingresa a la siguiente url y registrate\n${Config.DOMINIO}/registro`)
       } else if (cmd) {
         if (cmd.owner && !isCreator) return //myBot.sendText(m.chat, myLang("global").owner);
         else if (checkUser.block == true) return myBot.sendText(m.chat, myLang("global").block);
@@ -98,7 +98,6 @@ module.exports = myBot = async (myBot, m, chatUpdate, store) => {
           regUser,
           quoted,
           args,
-          checkUser,
         });
       } else {
         const is_event = Object.values(attr.commands).filter((func) => !func.cmd && !func.disabled);
@@ -106,9 +105,9 @@ module.exports = myBot = async (myBot, m, chatUpdate, store) => {
           if (checkUser.block == true) return myBot.sendText(m.chat, myLang("global").block);
           else if (event.isPrivate && m.isGroup) return
           else if (checkUser.cash < event.check.pts) {
-            return myBot.sendImage(m.chat, myLang("global").no_points.replace("{}", Config.DOMINIO)) }
+            return await myBot.sendImage(m.chat, myLang("global").no_points.replace("{}", Config.DOMINIO)) }
           await event.handler(m, {
-            myBot, myLang, budy, pushname, User, checkUser,
+            myBot, myLang, budy, pushname, User,
           })
         }
       }

@@ -134,6 +134,9 @@ header h1 {
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
 }
+.qrcode {
+  text-align: center;
+}
 @keyframes shift-rightwards {
   0% {
     transform: translateX(-100%);

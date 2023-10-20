@@ -90,7 +90,7 @@ global.reload = (path) => {
 
 // env ## not modify ##
 module.exports = {
-  BOT_NAME: process.env.BOT_NAME === undefined ? "🤖 DrkBot" : process.env.BOT_NAME,
+  BOT_NAME: process.env.BOT_NAME === undefined ? "DrkBot" : process.env.BOT_NAME,
   BRANCH: "main",
   HANDLER: process.env.HANDLER === undefined ? "^[.]" : process.env.HANDLER,
   WELCOME: process.env.WELCOME === undefined ? "true" : process.env.WELCOME,
@@ -103,7 +103,7 @@ module.exports = {
   VERSION: process.env.VERSION === undefined ? JSON.parse(readFileSync("./package.json")).version : process.env.VERSION,
   WORKTYPE: process.env.WORKTYPE === undefined ? "public" : process.env.WORKTYPE,
   OPEN_AI_KEY: process.env.OPEN_AI_KEY === undefined ? "" : process.env.OPEN_AI_KEY,
-  DOMINIO: process.env.DOMINIO === undefined ? "https://drk-bot.com.es/" : process.env.DOMINIO,
+  DOMINIO: process.env.DOMINIO === undefined ? "https://drk-bot.com.es" : process.env.DOMINIO,
 };
 // end env
 

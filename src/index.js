@@ -6,10 +6,10 @@ const fs = require("fs");
 const app = express();
 const port = process.env.PORT || 3000;
 
-const { User, addUserKey, totalHit } = require("./data");
+const { User, UserModel } = require("./data");
 const myLang = require("../language").getString;
-const Config = require("../config");
-const botName = Config.BOT_NAME;
+const { BOT_NAME, DOMINIO } = require("../config");
+const generalDescription = 'Experimente el poder de la Inteligencia Artificial: hable con Chat GPT en WhatsApp. Participe en conversaciones, obtenga respuestas a preguntas y explore posibilidades interesantes.'
 
 app.use(session({
     secret: "xix2j4av",
@@ -38,13 +38,18 @@ app.get('/lib/rnd', (req, res) => {
 
 /* rutas iniciales */
 app.get("/", (req, res) => {
-  res.render("index", { botName, pageTitle: 'Inicio' });
+  res.render("index", { BOT_NAME, DOMINIO, pageTitle: 'Inicio', description: generalDescription });
 });
 app.get("/planes", (req, res) => {
-  res.render("pricing", { botName, pageTitle: 'Planes' });
+  res.render("pricing", { BOT_NAME, DOMINIO, pageTitle: 'Planes', description: generalDescription });
 });
 app.get("/generador-link-whatsapp", (req, res) => {
-  res.render("gen", { botName, pageTitle: 'Planes' });
+  res.render("gen", {
+    BOT_NAME,
+    DOMINIO,
+    pageTitle: 'Generador de enlaces para WhatsApp',
+    description: 'Obten de manera rapida y en muy pocos click tu enlace de Whatsapp personslizado con tú ensaje predeterminado.'
+  });
 });
 
 /* rutas formulario */
@@ -52,14 +57,14 @@ app.get("/login", (req, res) => {
   if (req.session && req.session.sesionIniciada) {
     res.redirect("/usuario");
   } else {
-    res.render("login", { botName, pageTitle: 'Login' });
+    res.render("login", { BOT_NAME, DOMINIO, pageTitle: 'Login', description: generalDescription });
   }
 });
 app.get("/registro", (req, res) => {
   if (req.session && req.session.sesionIniciada) {
     res.redirect("/usuario");
   } else {
-    res.render("register", { botName, pageTitle: 'Registro' });
+    res.render("register", { BOT_NAME, DOMINIO, pageTitle: 'Registro', description: generalDescription });
   }
 });
 
@@ -67,7 +72,7 @@ app.post("/login", async (req, res) => {
   const phone = req.body.phone;
   const password = req.body.password;
   let noPlus = phone.replace(/\+/g, '');
-  let checkUser = User.show(noPlus+'@s.whatsapp.net');
+  let checkUser = await User.show(noPlus+'@s.whatsapp.net');
   let bot = await client.decodeJid(client.user.id.split(':')[0]);
 
   if (!checkUser) {
@@ -109,7 +114,7 @@ app.post("/registro", async (req, res) => {
   const phone = req.body.phone;
   const password = req.body.password;
   let noPlus = phone.replace(/\+/g, '');
-  let regUser = User.check(noPlus+'@s.whatsapp.net');
+  let regUser = await User.check(noPlus+'@s.whatsapp.net');
   let exist = await client.onWhatsApp(phone+'@s.whatsapp.net');
   if (!exist[0]) {
     return res.json({
@@ -135,7 +140,8 @@ app.post("/registro", async (req, res) => {
       time: 2500,
       ruta: '/login'
     });
-    new User(exist[0].jid, username, password)
+    let newUser = new User(exist[0].jid, username, password)
+    await newUser.save();
     await client.sendMessage(exist[0].jid, {
       text: `Bienvenido ${username}, tus credenciales son las siguientes:\n\n`+
       `*Usuario:*\n${username}\n`+
@@ -160,7 +166,7 @@ async function requireAdmin(req, res, next) {
   if (user === bot) {
     next();
   } else {
-    res.status(403).render("errores", { botName, pageTitle: 'Acceso Denegado', errorMessage: "403 Acceso Denegado" });
+    res.status(403).render("errores", { BOT_NAME, DOMINIO, pageTitle: 'Acceso Denegado', description: generalDescription, errorMessage: "403 Acceso Denegado" });
   }
 }
 
@@ -169,12 +175,12 @@ app.get("/usuario", requireLogin, async (req, res) => {
   res.set("Pragma", "no-cache");
   res.set("Expires", "0");
   const user = req.session.username;
-  let checkUser = User.show(user+'@s.whatsapp.net');
+  let checkUser = await User.show(user+'@s.whatsapp.net');
   let emojis = {"bronce": "🥉 Bronce", "plata": "🥈 Plata", "oro": "🥇 Oro",};
   let premiumEmoji = emojis[checkUser.plan] || "🆓";
   
   let profile = {
-    numero: checkUser.number.split('@')[0],
+    numero: checkUser.phone.split('@')[0],
     nombre: checkUser.name,
     pass: checkUser.pass || 'Contraseña no definida',
     usoBot: checkUser.usage,
@@ -183,7 +189,7 @@ app.get("/usuario", requireLogin, async (req, res) => {
     usosRestantes: '',
   }
   if (checkUser.premium) {
-    profile.diasRestantes = User.getDaysRemaining(checkUser.planEndDate);
+    profile.diasRestantes = await User.getDaysRemaining(checkUser.planEndDate);
     profile.usosRestantes = '♾️';
   } else {
     profile.diasRestantes = 'Hasta agotar creditos';
@@ -196,7 +202,7 @@ app.get("/usuario", requireLogin, async (req, res) => {
   } catch {
     ppuser = "/lib/rnd"
   }
-  res.render("user", { botName, pageTitle: 'Perfil', profile, ppuser });
+  res.render("user", { BOT_NAME, DOMINIO, pageTitle: 'Perfil', description: generalDescription, profile, ppuser });
 });
 app.get("/orden", requireLogin, async (req, res) => {
   res.set("Cache-Control", "no-cache, no-store, must-revalidate");
@@ -206,7 +212,7 @@ app.get("/orden", requireLogin, async (req, res) => {
   let planInfo = {};
 
   let user = req.session.username;
-  let checkUser = User.show(user+'@s.whatsapp.net');
+  let checkUser = await User.show(user+'@s.whatsapp.net');
 
   if (plan === 'bronce') {
     planInfo = {
@@ -243,36 +249,44 @@ app.get("/orden", requireLogin, async (req, res) => {
   }
 
   res.render('order', {
-    botName,
+    BOT_NAME,
+    DOMINIO,
     pageTitle: 'Orden',
+    description: generalDescription,
     plan: planInfo,
-    usuario: checkUser.number.split('@')[0],
+    usuario: checkUser.phone.split('@')[0],
     verifyPlan
   });
 });
 app.get("/configure", requireLogin, requireAdmin, async (req, res) => {
-  let bot = await client.decodeJid(client.user.id.split(':')[0]);
-  let totalUsers = Object.keys(database).length;
-  let isAdmin = req.session.isAdmin;
-
-  const page = parseInt(req.query.page) || 1;
-  const itemsPerPage = 10;
-  const startIndex = (page - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const usersToDisplay = Object.keys(database).slice(startIndex, endIndex);
-  const totalPages = Math.ceil(Object.keys(database).length / itemsPerPage);
-
-  res.render("bot", {
-    botName,
-    pageTitle: 'Administracion',
-    bot,
-    isAdmin,
-    totalUsers,
-    usos: totalHit(),
-    users: usersToDisplay,
-    totalPages,
-    currentPage: page
-  });
+  try {
+    let bot = await client.decodeJid(client.user.id.split(':')[0]);
+    let isAdmin = req.session.isAdmin;
+    
+    const page = parseInt(req.query.page) || 1;
+    const itemsPerPage = 10;
+    const startIndex = (page - 1) * itemsPerPage;
+    const totalUsers = await UserModel.countDocuments();
+    const users = await UserModel.find().skip(startIndex).limit(itemsPerPage);
+    const totalPages = Math.ceil(totalUsers / itemsPerPage);
+  
+    res.render("bot", {
+      BOT_NAME,
+      DOMINIO,
+      pageTitle: 'Administracion',
+      description: generalDescription,
+      bot,
+      isAdmin,
+      usos: 1,
+      totalUsers,
+      users,
+      totalPages,
+      currentPage: page
+    });
+  } catch (error) {
+    console.error('Error al recuperar usuarios:', error);
+    res.status(500).render("errores", { BOT_NAME, pageTitle: '....?', description: generalDescription, errorMessage: "500 Error Interno Del Servidor" });
+  }
 });
 
 app.get("/logout", (req, res) => {
@@ -286,7 +300,7 @@ app.set("view engine", "ejs");
 
 /* 404 */
 app.use((req, res, next) => {
-  res.status(404).render("errores", { botName, pageTitle: '....?', errorMessage: "404 Pagina no encontrada" });
+  res.status(404).render("errores", { BOT_NAME, pageTitle: '....?', description: generalDescription, errorMessage: "404 Pagina no encontrada" });
 });
 
 app.listen(port, () => {

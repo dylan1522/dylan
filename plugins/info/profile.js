@@ -3,21 +3,20 @@ module.exports = {
   cmd: /^(estado)/i,
   category: 'información',
   desc: 'obten tu informacion en el bot.',
-  register: true,
   isPrivate: true,
   check: { pts: 0 },
-  async handler(m, {User, checkUser}) {
-    let emojis = {"a": "🥉", "b": "🥈", "c": "🥇",};
+  async handler(m, {User}) {
+    const checkUser = await User.show(m.sender);
+    let emojis = {"bronce": "🥉", "plata": "🥈", "oro": "🥇",};
     let premiumEmoji = emojis[checkUser.plan] || "🆓";
 
-    let profile = `*ID:* ${checkUser.id}\n`
-    profile += `*Número:* ${checkUser.number.split("@")[0]}\n`
+    let profile = `*Número:* ${checkUser.phone.split("@")[0]}\n`
     profile += `*Nombre:* ${checkUser.name}\n`
     profile += `*Contraseña:* ${checkUser.pass || 'Contraseña no definida'}\n`
     profile += `*Uso del Bot:* ${checkUser.usage}\n`
     if (checkUser.premium) {
       profile += `*Plan Premium:* ${premiumEmoji}\n`
-      profile += `*Días restantes:* ${User.getDaysRemaining(checkUser.planEndDate)}\n`
+      profile += `*Días restantes:* ${await User.getDaysRemaining(checkUser.planEndDate)}\n`
       profile += `*Usos restantes:* ♾️`
     } else {
       profile += `*Plan Premium:* ${premiumEmoji}\n`;
