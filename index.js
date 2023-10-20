@@ -287,14 +287,8 @@ async function startMybot() {
     * @param {*} editedText
     * @param {*} quoted
     */
-    myBot.editMessage = async (jid, text, seconds, eT1, eT2, eT3, end, quoted) => {
+    myBot.editMessage = async (jid, text, seconds, end, quoted) => {
      const { key } = await myBot.sendMessage(jid, { text: text }, { quoted: quoted ? quoted : m}); 
-     await sleep(1000 * seconds);
-     await myBot.sendMessage(m.chat, { text: eT1, edit: key }); 
-     await sleep(1000 * seconds);
-     await myBot.sendMessage(m.chat, { text: eT2, edit: key }); 
-     await sleep(1000 * seconds);
-     await myBot.sendMessage(m.chat, { text: eT3, edit: key }); 
      await sleep(1000 * seconds);
      await myBot.sendMessage(m.chat, { text: end, edit: key });
     }

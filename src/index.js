@@ -51,6 +51,14 @@ app.get("/generador-link-whatsapp", (req, res) => {
     description: 'Obten de manera rapida y en muy pocos click tu enlace de Whatsapp personslizado con tú ensaje predeterminado.'
   });
 });
+app.get("/politicas_de_privacidad", (req, res) => {
+  res.render("privacy", {
+    BOT_NAME,
+    DOMINIO,
+    pageTitle: 'Politicas de Privacidad',
+    description: generalDescription
+  });
+});
 
 /* rutas formulario */
 app.get("/login", (req, res) => {

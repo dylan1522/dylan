@@ -24,7 +24,7 @@ module.exports = {
             'Authorization': `Bearer ${Config.OPEN_AI_KEY}`
           }
       });
-      myBot.editMessage(m.chat, 'Dame un momento estoy dibujando!', 3, '30% del dibujo', '60% del dibujo', '90% del dibujo', 'Dibujo Terminado, Enviando....')
+      myBot.editMessage(m.chat, 'Dame un momento estoy dibujando!', 3, 'Dibujo Terminado, Enviando....')
       await myBot.sendImage(m.chat, response.data.data[0].url, Config.BOT_NAME);
       await User.counter(m.sender, 1, isPremium);
     } catch (e) {
