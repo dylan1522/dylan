@@ -1,6 +1,6 @@
 const axios = require("axios");
 let Config = require("../../config");
-let { getBuffer, msgErr } = require("../../lib/myfunc");
+let { getBuffer, msgErr, sleep } = require("../../lib/myfunc");
 module.exports = {
   cmd: /^(crea)/i,
   category: 'ia',
@@ -25,6 +25,7 @@ module.exports = {
           }
       });
       myBot.editMessage(m.chat, 'Dame un momento estoy dibujando!', 3, 'Dibujo Terminado, Enviando....')
+      await sleep(3000)
       await myBot.sendImage(m.chat, response.data.data[0].url, Config.BOT_NAME);
       await User.counter(m.sender, 1, isPremium);
     } catch (e) {
