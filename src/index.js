@@ -313,7 +313,7 @@ app.set("view engine", "ejs");
 
 /* 404 */
 app.use((req, res, next) => {
-  res.status(404).render("errores", { BOT_NAME, pageTitle: '....?', description: generalDescription, errorMessage: "404 Pagina no encontrada" });
+  res.status(404).render("errores", { BOT_NAME, DOMINIO, pageTitle: '....?', description: generalDescription, errorMessage: "404 Pagina no encontrada" });
 });
 
 app.listen(port, () => {
