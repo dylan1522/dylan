@@ -32,10 +32,10 @@ module.exports = {
             role: message.role,
             content: message.content,
           })),
-          /*{
+          {
             role: "assistant",
             content: budy,
-          },*/
+          },
         ],
       });
   
