@@ -19,7 +19,7 @@ if (LANG == "ES") {
 module.exports = {
   ignored: true,
   isPrivate: true,
-  cmd: /^(men[uú]|ayuda|help|funciones|alive)|informaci[oó]n|/ig,
+  cmd: /^(men[uú]|ayuda|help|funciones|alive)|informaci[oó]n/ig,
   check: { pts: 0 },
   async handler(m, {myBot, budy, myLang, prefix}) {
       try {
