@@ -64,6 +64,15 @@ class User {
     });
     await newUser.save();
   }
+  
+  static async delUser(phone) {
+    try {
+      await UserModel.findOneAndDelete({ phone });
+    } catch (error) {
+      console.error(`Error al eliminar el usuario "${phone}": ${error}`);
+    }
+  }
+
 
   static async show(phone) {
     return await UserModel.findOne({ phone });
