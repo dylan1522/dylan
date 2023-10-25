@@ -1,4 +1,3 @@
-const fs = require("fs");
 let Config = require("../../config");
 let { newSticker } = require("../../lib/exif");
 let { msgErr } = require("../../lib/myfunc");

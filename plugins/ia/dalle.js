@@ -13,9 +13,10 @@ module.exports = {
     if(!text) return m.reply("Que imagen deseas crear?\nEscribe crea seguido de lo que quieres.");
     myBot.sendReact(m.chat, "🎨", m.key);
     try {
+      let prePrompt = 'Mejora la imagen de acuerdo a mis especificaciones';
       const response = await axios.post('https://api.openai.com/v1/images/generations', {
-        "model": "image-alpha-001",
-        "prompt": `${command} ${text}`,
+        //"model": "image-alpha-001",
+        "prompt": `${prePrompt} ${text}`,
         "num_images": 1,
         "size": "512x512",
         "response_format": "url"
