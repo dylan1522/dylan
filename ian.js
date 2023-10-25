@@ -43,7 +43,6 @@ module.exports = myBot = async (myBot, m, chatUpdate, store) => {
     const { User, addUserKey } = require("./src/data");
     const regUser = await User.check(m.sender);
     const checkUser = await User.show(m.sender);
-    let isPremium = checkUser.premium ? 0 : -1;
 
     // Group
     const groupMetadata = m.isGroup ? await myBot.groupMetadata(m.chat).catch((e) => {}) : "";
@@ -75,7 +74,7 @@ module.exports = myBot = async (myBot, m, chatUpdate, store) => {
       }
     };
 
-
+log(budy)
     const cmd = Object.values(attr.commands).find((cmn) => cmn.cmd && command.match(cmn.cmd) && !cmn.disabled)
     if (budy) {
       if (regUser === false) {
@@ -86,6 +85,7 @@ module.exports = myBot = async (myBot, m, chatUpdate, store) => {
         if (checkUser.cash < 1) return myBot.sendText(m.chat, myLang("global").no_points.replace("{}", Config.DOMINIO));
         if (m.message.audioMessage.seconds > 10) return myBot.sendText(m.chat, 'Envia un audio menor a 10 segundos!');
         
+        let isPremium = checkUser.premium ? 0 : -1;
         let FormData = require("form-data");
         myBot.sendReact(m.chat, "🎧", m.key);
         try {
