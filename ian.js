@@ -74,7 +74,6 @@ module.exports = myBot = async (myBot, m, chatUpdate, store) => {
       }
     };
 
-log(budy)
     const cmd = Object.values(attr.commands).find((cmn) => cmn.cmd && command.match(cmn.cmd) && !cmn.disabled)
     if (budy) {
       if (regUser === false) {
