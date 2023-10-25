@@ -19,7 +19,7 @@ if (LANG == "ES") {
 module.exports = {
   ignored: true,
   isPrivate: true,
-  cmd: /^(men[uú]|ayuda|help|funciones)|informaci[oó]n/ig,
+  cmd: /^(men[uú]|ayuda|help|funciones|alive)|informaci[oó]n|/ig,
   check: { pts: 0 },
   async handler(m, {myBot, budy, myLang, prefix}) {
       try {
@@ -49,7 +49,7 @@ module.exports = {
           var saludo = sal_d;
         }
         let menu = `${hi_lang} *${m.pushName}*, ${saludo}\n\n`
-        menu += myLang("global").welcome.split(".").slice(3).join(".").trim()+'\n\n'
+        menu += myLang("global").welcome.split(".").slice(3).join(".").trim()+'\n'
         /*
         menu += `${readMore}`
         let numtag = 1

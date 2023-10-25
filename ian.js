@@ -77,7 +77,7 @@ module.exports = myBot = async (myBot, m, chatUpdate, store) => {
     const cmd = Object.values(attr.commands).find((cmn) => cmn.cmd && command.match(cmn.cmd) && !cmn.disabled)
     if (budy) {
       if (regUser === false) {
-        return myBot.sendText(m.chat, `Ingresa a la siguiente url y registrate\n${Config.DOMINIO}/registro`)
+        return myBot.sendText(m.chat, `👋🏻 Hola, soy *DrkBot*, veo qué no estás registrado.\nPara usar todas mis funciones ingresa al siguiente link y registrate\n${Config.DOMINIO}/registro`)
       }
       else if (budy == "audioMessage") {
         if (m.isGroup) return;
