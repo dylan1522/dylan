@@ -54,7 +54,7 @@ const readPlugins = () => {
 };
 readPlugins();
 
-/*setInterval(() => {
+setInterval(() => {
   fetch(`${Config.DOMINIO}/ping`).then(response => {
     if (response.ok) {
       console.log('Ping enviado para mantener la actividad.');
@@ -62,7 +62,7 @@ readPlugins();
       console.error('Error al enviar el ping.');
     }
   });
-}, 4 * 60 * 1000);*/
+}, 4 * 60 * 1000);
 
 const folderPath = './temp';
 fs.watch(folderPath, (eventType, filename) => {

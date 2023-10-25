@@ -304,9 +304,9 @@ app.get("/logout", (req, res) => {
 });
 
 /* mantener actividad plan free */
-/*app.get('/ping', (req, res) => {
+app.get('/ping', (req, res) => {
   res.send('Pong');
-});*/
+});
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
