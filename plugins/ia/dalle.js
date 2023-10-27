@@ -11,12 +11,13 @@ module.exports = {
     let checkUser = await User.show(m.sender);
     let isPremium = checkUser.premium ? 0 : -1;
     if(!text) return m.reply("Que imagen deseas crear?\nEscribe crea seguido de lo que quieres.");
+    if(text.length < 8) return m.reply("Ingresa una mejor descripción!");
     myBot.sendReact(m.chat, "🎨", m.key);
     try {
-      let prePrompt = 'Mejora la imagen de acuerdo a mis especificaciones';
+      //let prePrompt = 'Mejora la imagen de acuerdo a mis especificaciones';
       const response = await axios.post('https://api.openai.com/v1/images/generations', {
         //"model": "image-alpha-001",
-        "prompt": `${prePrompt} ${text}`,
+        "prompt": text,
         "num_images": 1,
         "size": "512x512",
         "response_format": "url"
@@ -29,9 +30,15 @@ module.exports = {
       await sleep(3000)
       await myBot.sendImage(m.chat, response.data.data[0].url, Config.BOT_NAME);
       await User.counter(m.sender, 1, isPremium);
-    } catch (e) {
-      myBot.sendText(m.chat, msgErr())
-      throw e
+    } catch {
+      try {
+        let { data } = await axios.get(`https://vihangayt.me/tools/midjourney?q=${text}`, { responseType: 'arraybuffer' });
+        await myBot.sendImage(m.chat, data, Config.BOT_NAME);
+        await User.counter(m.sender, 1, isPremium);
+      } catch {
+        myBot.sendText(m.chat, msgErr())
+        throw e
+      }
     }
   }
 };
