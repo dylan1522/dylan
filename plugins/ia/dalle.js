@@ -32,7 +32,7 @@ module.exports = {
       await User.counter(m.sender, 1, isPremium);
     } catch {
       try {
-        let { data } = await axios.get(`https://vihangayt.me/tools/midjourney?q=${text}`, { responseType: 'arraybuffer' });
+        let { data } = await axios.get(`https://vihangayt.me/tools/midjourney?q=${text}`);
         await myBot.sendImage(m.chat, data, Config.BOT_NAME);
         await User.counter(m.sender, 1, isPremium);
       } catch {
