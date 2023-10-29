@@ -2,7 +2,6 @@ const express = require("express");
 const session = require("express-session");
 const bodyParser = require('body-parser');
 const path = require("path");
-const fs = require("fs");
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -38,7 +37,7 @@ app.get('/lib/rnd', (req, res) => {
 
 /* rutas iniciales */
 app.get("/", (req, res) => {
-  res.render("index", { BOT_NAME, DOMINIO, pageTitle: 'Inicio', description: generalDescription });
+  res.render("index", { BOT_NAME, DOMINIO, pageTitle: 'ChatGPT para tu WhatsApp', description: generalDescription });
 });
 app.get("/planes", (req, res) => {
   res.render("pricing", { BOT_NAME, DOMINIO, pageTitle: 'Planes', description: generalDescription });
