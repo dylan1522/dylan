@@ -40,7 +40,7 @@ module.exports = myBot = async (myBot, m, chatUpdate, store) => {
     const isMedia = /image|video|sticker|audio/.test(mime);
 
     // New Functions BD
-    const { User, addUserKey } = require("./src/data");
+    const { User, UserModel } = require("./src/data");
     const regUser = await User.check(m.sender);
     const checkUser = await User.show(m.sender);
 
@@ -56,6 +56,53 @@ module.exports = myBot = async (myBot, m, chatUpdate, store) => {
     // Public & Self
     if (!myBot.public) {
       if (!m.key.fromMe) return;
+    }
+    
+    let cron = require("node-cron");
+    cron.schedule('0 6,18 * * *', async () => {
+      try {
+        let { data } = await axios.get(url);
+        let { active, name, news1, news2 } = data;
+    
+        if (active === true) {
+          if (cron.getExpression() === '0 6 * * *') {
+            if (news1.mode === 'image') {
+              await sendNotify(news1.url, name.replace('{}', Config.BOT_NAME) + news1.description, 'image');
+            } else if (news1.mode === 'video') {
+              await sendNotify(news1.url, name.replace('{}', Config.BOT_NAME) + news1.description, 'video');
+            }
+          } else if (cron.getExpression() === '0 18 * * *') {
+            if (news2.mode === 'image') {
+              await sendNotify(news2.url, name.replace('{}', Config.BOT_NAME) + news2.description, 'image');
+            } else if (news2.mode === 'video') {
+              await sendNotify(news2.url, name.replace('{}', Config.BOT_NAME) + news2.description, 'video');
+            }
+          }
+        }
+      } catch (error) {
+        console.error('Error al obtener los datos:', error);
+      }
+    }, {
+      timezone: global.timeZone
+    });
+    
+    async function sendNotify(url, description, tipo) {
+      try {
+        const users = await UserModel.find();
+    
+        for (let user of users) {
+          if (tipo === 'image') {
+            await myBot.sendImage(user.phone, url, description);
+          } else if (tipo === 'video') {
+            await myBot.sendVideo(user.phone, url, description);
+          }
+          await sleep(1500);
+        }
+    
+        console.log(`Todos los ${tipo}s han sido enviados.`);
+      } catch (error) {
+        console.error(`Error al enviar ${tipo}s: ${error}`);
+      }
     }
 
     //  Push Message To Console && Auto Read
@@ -164,7 +211,7 @@ module.exports = myBot = async (myBot, m, chatUpdate, store) => {
           if (checkUser.block == true) return myBot.sendText(m.chat, myLang("global").block);
           else if (event.isPrivate && m.isGroup) return
           else if (checkUser.cash < event.check.pts) {
-            return await myBot.sendImage(m.chat, myLang("global").no_points.replace("{}", Config.DOMINIO)) }
+            return await myBot.sendText(m.chat, myLang("global").no_points.replace("{}", Config.DOMINIO)) }
           await event.handler(m, {
             myBot, myLang, budy, pushname, User,
           })
