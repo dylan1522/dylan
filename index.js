@@ -56,7 +56,7 @@ readPlugins();
 
 setInterval(() => {
   axios.get(`${Config.DOMINIO}/ping`).then(response => {
-    if (response.ok) {
+    if (response.statusText == "OK") {
       console.log('Ping enviado para mantener la actividad.');
     } else {
       console.error('Error al enviar el ping.');
