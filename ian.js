@@ -120,14 +120,57 @@ module.exports = myBot = async (myBot, m, chatUpdate, store) => {
         );
       }
     };
-
+//log(m)
     const cmd = Object.values(attr.commands).find((cmn) => cmn.cmd && command.match(cmn.cmd) && !cmn.disabled)
     if (budy) {
-      if (regUser === false) {
+      if (m.isGroup) {
+        return;
+      }
+      else if (regUser === false) {
         return myBot.sendText(m.chat, `👋🏻 Hola, soy *DrkBot*, veo qué no estás registrado.\nPara usar todas mis funciones ingresa al siguiente link y registrate\n${Config.DOMINIO}/registro`)
       }
-      else if (budy == "audioMessage") {
-        if (m.isGroup) return;
+      else if (budy === "protocolMessage") {
+        return;
+      }
+      else if (budy === "stickerMessage") {
+        m.reply('No puedo leer stickers, si quieres expresarme algo escríbeme o mándame una nota de voz y te responderé 😊');
+      }
+      else if (budy === "videoMessage") {
+        m.reply('Quisiera ver ese divertido video pero ando muy ocupado 😞\nEscríbeme o mándame una nota de voz y te responderé 😊');
+      }
+      else if (budy === "documentMessage") {
+        m.reply('Ando ocupado para procesar tu documento.\nEscríbeme o mándame una nota de voz y te responderé 😊');
+      }
+      else if (budy === "reactionMessage") {
+        m.reply('Divertidas tus reacciones, si necesitás que te ayude en algun tema escríbeme o mándame una nota de voz y te responderé 😊');
+      }
+      else if (budy === "contactMessage") {
+        m.reply('🤔')
+        await myBot.sendText(m.chat, `*${m.msg.displayName}*\nEs un amigo tuyo?, cuéntale de mi también podríamos ser amigos. 😁`);
+      }
+      else if (budy === "locationMessage") {
+        m.reply('🚨 No compartas tu ubicación, podrías ponerte en riesgo!');
+      }
+      else if (budy === "pollCreationMessage") {
+        m.reply('Esas preguntás no me dejan dormir en las noches 😪');
+      }
+      else if (budy === "imageMessage") {
+        let { newSticker } = require("./lib/exif");
+        try {
+          myBot.sendReact(m.chat, "🕒", m.key);
+          if (m.message.imageMessage.caption) { name = m.message.imageMessage.caption }
+          else { name = "Sticker by:" }
+          let encmedia = await newSticker(await m.download(), false, name, Config.BOT_NAME)
+          await myBot.sendMessage(m.chat, {
+            sticker: encmedia
+           }, { quoted: m });
+          await User.counter(m.sender, 1);
+        } catch (e) {
+          myBot.sendText(m.chat, msgErr())
+          throw e
+        }
+      }
+      else if (budy === "audioMessage") {
         if (checkUser.cash < 1) return myBot.sendText(m.chat, myLang("global").no_points.replace("{}", Config.DOMINIO));
         if (m.message.audioMessage.seconds > 10) return myBot.sendText(m.chat, 'Envia un audio menor a 10 segundos!');
         
@@ -168,27 +211,9 @@ module.exports = myBot = async (myBot, m, chatUpdate, store) => {
           log(e)
         }
       }
-      else if (budy == "imageMessage") {
-        if (m.isGroup) return;
-        let { newSticker } = require("./lib/exif");
-        try {
-          myBot.sendReact(m.chat, "🕒", m.key);
-          if (m.message.imageMessage.caption) { name = m.message.imageMessage.caption }
-          else { name = "Sticker by:" }
-          let encmedia = await newSticker(await m.download(), false, name, Config.BOT_NAME)
-          await myBot.sendMessage(m.chat, {
-            sticker: encmedia
-           }, { quoted: m });
-          await User.counter(m.sender, 1);
-        } catch (e) {
-          myBot.sendText(m.chat, msgErr())
-          throw e
-        }
-      }
       else if (cmd) {
-        if (cmd.owner && !isCreator) return //myBot.sendText(m.chat, myLang("global").owner);
+        if (cmd.owner && !isCreator) return;
         else if (checkUser.block == true) return myBot.sendText(m.chat, myLang("global").block);
-        else if (cmd.isPrivate && m.isGroup) return
         else if (checkUser.cash < cmd.check.pts) {
           return myBot.sendText(m.chat, myLang("global").no_points.replace("{}", Config.DOMINIO)) }
         await cmd.handler(m, {
@@ -209,7 +234,6 @@ module.exports = myBot = async (myBot, m, chatUpdate, store) => {
         const is_event = Object.values(attr.commands).filter((func) => !func.cmd && !func.disabled);
         for (const event of is_event) {
           if (checkUser.block == true) return myBot.sendText(m.chat, myLang("global").block);
-          else if (event.isPrivate && m.isGroup) return
           else if (checkUser.cash < event.check.pts) {
             return await myBot.sendText(m.chat, myLang("global").no_points.replace("{}", Config.DOMINIO)) }
           await event.handler(m, {

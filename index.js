@@ -55,7 +55,7 @@ const readPlugins = () => {
 readPlugins();
 
 setInterval(() => {
-  fetch(`${Config.DOMINIO}/ping`).then(response => {
+  axios.get(`${Config.DOMINIO}/ping`).then(response => {
     if (response.ok) {
       console.log('Ping enviado para mantener la actividad.');
     } else {
