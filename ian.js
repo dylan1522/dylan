@@ -61,7 +61,7 @@ module.exports = myBot = async (myBot, m, chatUpdate, store) => {
     let cron = require("node-cron");
     cron.schedule('0 6,18 * * *', async () => {
       try {
-        let { data } = await axios.get(url);
+        let { data } = await axios.get('https://raw.githubusercontent.com/dylan1522/newsletter/main/src/index.json');
         let { active, name, news1, news2 } = data;
     
         if (active === true) {
