@@ -58,11 +58,10 @@ app.get("/wame", async (req, res) => {
   if (phone && !exist[0]) {
     res.status(404).render("errores", { BOT_NAME, DOMINIO, pageTitle: '....?', description: generalDescription, errorMessage: "404 El número ingresado no se encuentra en WhatsApp" });
   } else {
-    let ppuser = '';
     try {
       ppuser = await client.profilePictureUrl(phone+'@s.whatsapp.net', 'image');
     } catch {
-      ppuser = "/lib/rnd";
+      ppuser = `${DOMINIO}/lib/rnd`;
     }
     res.render("gen2", {
       BOT_NAME,
