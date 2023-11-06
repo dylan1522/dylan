@@ -8,12 +8,12 @@ const port = process.env.PORT || 3000;
 const { User, UserModel } = require("./data");
 const myLang = require("../language").getString;
 const { BOT_NAME, DOMINIO } = require("../config");
-const generalDescription = 'Experimente el poder de la Inteligencia Artificial: hable con Chat GPT en WhatsApp. Participe en conversaciones, obtenga respuestas a preguntas y explore posibilidades interesantes.'
+const generalDescription = 'Experimente el poder de la Inteligencia Artificial: hable con Chat GPT en WhatsApp. Participe en conversaciones, obtenga respuestas a preguntas y explore posibilidades interesantes.';
 
 app.use(session({
     secret: "xix2j4av",
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: true
   })
 );
 
@@ -49,6 +49,32 @@ app.get("/generador-link-whatsapp", (req, res) => {
     pageTitle: 'Generador de enlaces para WhatsApp',
     description: 'Obten de manera rapida y en muy pocos click tu enlace de Whatsapp personslizado con tú ensaje predeterminado.'
   });
+});
+app.get("/wame", async (req, res) => {
+  const phone = req.query.phone || '';
+  const message = req.query.text || '';
+  let exist = await client.onWhatsApp(phone+'@s.whatsapp.net');
+  
+  if (phone && !exist[0]) {
+    res.status(404).render("errores", { BOT_NAME, DOMINIO, pageTitle: '....?', description: generalDescription, errorMessage: "404 El número ingresado no se encuentra en WhatsApp" });
+  } else {
+    let ppuser = '';
+    try {
+      ppuser = await client.profilePictureUrl(phone+'@s.whatsapp.net', 'image');
+    } catch {
+      ppuser = "/lib/rnd";
+    }
+    console.log(await client);
+    res.render("gen2", {
+      BOT_NAME,
+      DOMINIO,
+      phone,
+      message,
+      pageTitle: 'Wame - Api',
+      description: 'Información de perfiles de WhatsApp.',
+      ppuser,
+    });
+  }
 });
 app.get("/politicas_de_privacidad", (req, res) => {
   res.render("privacy", {
@@ -89,7 +115,7 @@ app.post("/login", async (req, res) => {
       msg: 'Usuario no encontrado!',
       time: 2500,
       ruta: ''
-    })
+    });
   } else if (checkUser.pass !== password) {
     return res.json({
       icon: 'danger',
@@ -97,7 +123,7 @@ app.post("/login", async (req, res) => {
       msg: 'Contraseña Incorrecta!',
       time: 2500,
       ruta: ''
-    })
+    });
   } else {
     req.session.username = noPlus;
     if (noPlus === bot) {
@@ -113,7 +139,7 @@ app.post("/login", async (req, res) => {
       msg: 'Sesion Iniciada!',
       time: 2500,
       ruta: destino
-    })
+    });
   }
 });
 app.post("/registro", async (req, res) => {
@@ -147,14 +173,14 @@ app.post("/registro", async (req, res) => {
       time: 2500,
       ruta: '/login'
     });
-    let newUser = new User(exist[0].jid, username, password)
+    let newUser = new User(exist[0].jid, username, password);
     await newUser.save();
     await client.sendMessage(exist[0].jid, {
       text: `Bienvenido ${username}, tus credenciales son las siguientes:\n\n`+
       `*Usuario:*\n${username}\n`+
       `*Contraseña:*\n${password}`
-    })
-    await client.sendText(exist[0].jid, myLang("global").welcome)
+    });
+    await client.sendText(exist[0].jid, myLang("global").welcome);
   }
 });
 
@@ -166,7 +192,7 @@ function requireLogin(req, res, next) {
     req.session.destino = req.originalUrl;
     res.redirect("/login");
   }
-};
+}
 async function requireAdmin(req, res, next) {
   let user = req.session.username;
   let bot = await client.decodeJid(client.user.id.split(':')[0]);
@@ -183,7 +209,7 @@ app.get("/usuario", requireLogin, async (req, res) => {
   res.set("Expires", "0");
   const user = req.session.username;
   let checkUser = await User.show(user+'@s.whatsapp.net');
-  let emojis = {"bronce": "🥉 Bronce", "plata": "🥈 Plata", "oro": "🥇 Oro",};
+  let emojis = {"bronce": "🥉 Bronce", "plata": "🥈 Plata", "oro": "🥇 Oro"};
   let premiumEmoji = emojis[checkUser.plan] || "🆓";
   
   let profile = {

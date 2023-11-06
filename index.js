@@ -64,7 +64,7 @@ setInterval(() => {
   });
 }, 4 * 60 * 1000);
 
-const folderPath = './temp';
+/*const folderPath = './temp';
 fs.watch(folderPath, (eventType, filename) => {
   if (eventType === 'rename') {
     fs.unlink(`${folderPath}/${filename}`, (err) => {
@@ -72,8 +72,7 @@ fs.watch(folderPath, (eventType, filename) => {
       log(`Archivo ${filename} eliminado`);
     });
   }
-});
-
+});*/
 
 async function startMybot() {
     const myBot = myBotConnect({
