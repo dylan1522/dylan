@@ -64,7 +64,6 @@ app.get("/wame", async (req, res) => {
     } catch {
       ppuser = "/lib/rnd";
     }
-    console.log(await client);
     res.render("gen2", {
       BOT_NAME,
       DOMINIO,
