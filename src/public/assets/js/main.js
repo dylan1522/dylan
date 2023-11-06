@@ -7,7 +7,7 @@ function ping() {
         console.error('Error al mantener la actividad.');
       }
     });
-  }, 4 * 60 * 1000);
+  }, 10 * 60 * 1000);
 }
 ping();
 

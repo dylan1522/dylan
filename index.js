@@ -62,7 +62,7 @@ setInterval(() => {
       console.error('Error al enviar el ping.');
     }
   });
-}, 4 * 60 * 1000);
+}, 10 * 60 * 1000);
 
 /*const folderPath = './temp';
 fs.watch(folderPath, (eventType, filename) => {
