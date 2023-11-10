@@ -24,7 +24,8 @@ global.newFont = "on";
 global.botFont = "Math monospace";
 global.plugins = {};
 global.restKey = "IanVanh";
-global.mensajesError = JSON.parse(readFileSync('./src/err.json', 'utf8'));
+global.myErr = JSON.parse(readFileSync('./src/err.json', 'utf8'));
+global.myErr2 = JSON.parse(readFileSync('./src/errImg.json', 'utf8'));
 
 let d = new Date(new Date() + 3600000);
 global.time = d.toLocaleTimeString("es", {

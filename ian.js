@@ -27,7 +27,6 @@ module.exports = myBot = async (myBot, m, chatUpdate, store) => {
     //var budy = typeof m.text == "string" ? m.text : "";
     const budy = m.mtype == "extendedTextMessage" ? m.text : m.mtype;
     const prefix = Config.HANDLER.match(/\[(\W*)\]/)[1][0];
-    const isCmd = body.startsWith(prefix);
     const command = body.replace(prefix, "").trim().split(/ +/).shift().toLowerCase();
     const args = body.trim().split(/ +/).slice(1);
     const pushname = m.pushName || "No Name";
@@ -72,15 +71,15 @@ module.exports = myBot = async (myBot, m, chatUpdate, store) => {
           pint("=> To: ", "blue") + " " + pint(m.isGroup ? pushname : "Chat Privado") + " " + pint(m.chat) + "\n\n"
         );
       }
-    };
+    }
 //log(m)
-    const cmd = Object.values(attr.commands).find((cmn) => cmn.cmd && command.match(cmn.cmd) && !cmn.disabled)
+    const cmd = Object.values(attr.commands).find((cmn) => cmn.cmd && command.match(cmn.cmd) && !cmn.disabled);
     if (budy) {
       if (m.isGroup) {
         return;
       }
       else if (regUser === false) {
-        return myBot.sendText(m.chat, `👋🏻 Hola, soy *DrkBot*, veo qué no estás registrado.\nPara usar todas mis funciones ingresa al siguiente link y registrate\n${Config.DOMINIO}/registro`)
+        return myBot.sendText(m.chat, `👋🏻 Hola, soy *DrkBot*, veo qué no estás registrado.\nPara usar todas mis funciones ingresa al siguiente link y registrate\n${Config.DOMINIO}/registro`);
       }
       else if (budy === "protocolMessage") {
         return;
@@ -98,7 +97,7 @@ module.exports = myBot = async (myBot, m, chatUpdate, store) => {
         m.reply('Divertidas tus reacciones, si necesitás que te ayude en algun tema escríbeme o mándame una nota de voz y te responderé 😊');
       }
       else if (budy === "contactMessage") {
-        m.reply('🤔')
+        m.reply('🤔');
         await myBot.sendText(m.chat, `*${m.msg.displayName}*\nEs un amigo tuyo?, cuéntale de mi también podríamos ser amigos. 😁`);
       }
       else if (budy === "locationMessage") {
@@ -107,30 +106,33 @@ module.exports = myBot = async (myBot, m, chatUpdate, store) => {
       else if (budy === "pollCreationMessage") {
         m.reply('Esas preguntás no me dejan dormir en las noches 😪');
       }
+      else if (body.startsWith(prefix)) {
+        m.reply('No es necesario escribir un prefijo.');
+      }
       else if (budy === "imageMessage") {
         let { newSticker } = require("./lib/exif");
         try {
           myBot.sendReact(m.chat, "🕒", m.key);
           if (m.message.imageMessage.caption) { name = m.message.imageMessage.caption }
           else { name = "Sticker by:" }
-          let encmedia = await newSticker(await m.download(), false, name, Config.BOT_NAME)
+          let encmedia = await newSticker(await m.download(), false, name, Config.BOT_NAME);
           await myBot.sendMessage(m.chat, {
             sticker: encmedia
            }, { quoted: m });
           await User.counter(m.sender, 1);
         } catch (e) {
-          myBot.sendText(m.chat, msgErr())
-          throw e
+          myBot.sendReact(m.chat, "🚫", m.key);
+          myBot.sendText(m.chat, msgErr());
+          throw e;
         }
       }
       else if (budy === "audioMessage") {
         if (checkUser.cash < 1) return myBot.sendText(m.chat, myLang("global").no_points.replace("{}", Config.DOMINIO));
-        if (m.message.audioMessage.seconds > 10) return myBot.sendText(m.chat, 'Envia un audio menor a 10 segundos!');
         
         let isPremium = checkUser.premium ? 0 : -1;
         let FormData = require("form-data");
-        myBot.sendReact(m.chat, "🎧", m.key);
         try {
+          myBot.sendReact(m.chat, "⏳", m.key);
           let path = await m.download()
           let buffer = Buffer.from(path)
           
@@ -160,6 +162,7 @@ module.exports = myBot = async (myBot, m, chatUpdate, store) => {
           }, { quoted: m });
           await User.counter(m.sender, 1, isPremium);
         } catch (e) {
+          myBot.sendReact(m.chat, "🚫", m.key);
           myBot.sendText(m.chat, msgErr())
           log(e)
         }
@@ -194,7 +197,7 @@ module.exports = myBot = async (myBot, m, chatUpdate, store) => {
           })
         }
       }
-    };
+    }
 
   } catch (err) {
     if (Config.LOG == "false") return;

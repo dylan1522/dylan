@@ -37,9 +37,15 @@ module.exports = {
         await myBot.sendImage(m.chat, response.data.data[0].url, `*${Config.BOT_NAME}*`);
         await User.counter(m.sender, 1, isPremium);
       } catch {
-        myBot.sendText(m.chat, msgErr())
+        myBot.sendText(m.chat, errores())
         throw e
       }
     }
   }
 };
+
+function errores() {
+  let errores = Object.values(myErr2);
+  let i = Math.floor(Math.random() * errores.length);
+  return errores[i];
+}

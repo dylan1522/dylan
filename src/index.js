@@ -51,8 +51,9 @@ app.get("/generador-link-whatsapp", (req, res) => {
   });
 });
 app.get("/wame", async (req, res) => {
-  const phone = req.query.phone || '';
-  const message = req.query.text || '';
+  const number = req.query.phone;
+  const message = req.query.text ;
+  let phone = number.replace(/\D/g, '');
   let exist = await client.onWhatsApp(phone+'@s.whatsapp.net');
   
   if (phone && !exist[0]) {

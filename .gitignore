@@ -3,8 +3,8 @@ config.env
 
 # Dependency directories
 node_modules/
-src/public/old-code/
 
-# data-auth
+# data-ext
+package-lock.json
 yarn-error.log
 yarn.lock
