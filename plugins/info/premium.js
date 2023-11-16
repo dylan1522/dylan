@@ -1,6 +1,6 @@
 let Config = require("../../config");
 module.exports = {
-  cmd: /plan|premium/i,
+  cmd: /premium/i,
   category: 'información',
   desc: 'solicitud',
   ignored: true,

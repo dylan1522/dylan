@@ -90,6 +90,7 @@ const iti = window.intlTelInput(input, {
       let u = $("#username").val();
       let n = iti.getNumber();
       let p = $("#password").val();
+      let c = $("#promoCode").val();
 
       if (u && n && p) {
         if (u.length < 6) {
@@ -109,6 +110,7 @@ const iti = window.intlTelInput(input, {
             username: u,
             phone: n,
             password: p,
+            promoCode: c,
           };
           $.ajax({
             type: "POST",

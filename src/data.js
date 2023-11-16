@@ -146,6 +146,8 @@ class User {
       endDate.setMonth(now.getMonth() + 6);
     } else if (plan === "oro") {
       endDate.setFullYear(now.getFullYear() + 1);
+    } else if (plan === 'semana') {
+      endDate.setDate(now.getDate() + 7);
     } else {
       return;
     }
@@ -185,6 +187,6 @@ class User {
     const daysRemaining = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
     return daysRemaining;
   }
-};
+}
 
 module.exports = { User, UserModel };

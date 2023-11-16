@@ -14,7 +14,7 @@ module.exports = {
     if(text.length < 8) return m.reply("Ingresa una mejor descripción!");
     myBot.sendReact(m.chat, "🎨", m.key);
     try {
-      let { data } = await axios.get(`https://vihangayt.me/tools/midjourney?q=${text}`, { responseType: 'arraybuffer' });
+      let { data } = await axios.get(`${process.env.AI_GEN}/ai/text2img?text=${text}`, { responseType: 'arraybuffer' });
       myBot.editMessage(m.chat, 'Dame un momento estoy dibujando!', 3, 'Dibujo Terminado, Enviando....')
       await sleep(3000)
       await myBot.sendImage(m.chat, data, `*${Config.BOT_NAME}* Image Generator`);

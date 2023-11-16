@@ -1,8 +1,8 @@
 const axios = require("axios");
-const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
+//const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 let { log, pint } = require("../../lib/colores");
 let Config = require("../../config");
-let { jsonformat } = require("../../lib/myfunc");
+let { jsonformat, fetchJson } = require("../../lib/myfunc");
 module.exports = {
   cmd: /^(test)/i,
   category: 'ia',

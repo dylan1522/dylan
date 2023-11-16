@@ -58,6 +58,9 @@ body {
 .grid img {
   width: 400px;
 }
+.imgGenerate {
+  padding-bottom: 30px;
+}
 @font-face {
   font-family: Boo;
   src: url(/assets/font/ibx.ttf);

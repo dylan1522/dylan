@@ -1,35 +1,26 @@
-let Config = require("../../config");
+let { fetchJson } = require("../../lib/myfunc");
 module.exports = {
-  cmd: /^(bc|bgc)/i,
-  category: 'owner',
-  desc: 'envia difusion a los grupos donde se encuentra el bot.',
+  cmd: /^(dbold)/i,
+  category: 'ia',
+  desc: 'test de comandos',
   ignored: true,
+  isPrivate: true,
   owner: true,
-  check: { pts: null },
-  async handler(m, {myBot, command, text, prefix}) {
-    let = imgbc = (await m.quoted.download()).catch(() => global.thumb);
-    if(command == "bc") {
-      if (!text) return m.reply(`Que quieres enviar?\n\nEjemplo: ${prefix + command} text`);
-      let anu = await Object.keys(database)
-      m.reply(`Enviar difusión a ${anu.length} chat.\n*Tiempo de envio:* Aproximadamente ${anu.length * 2} segundos.`);
-      for (let i of anu) {
-        await sleep(1500);
-        let txt = `「 Difusor Bot 」\n\n${text}`;
-        await myBot.sendImage(i, imgbc, txt);
-      }
-      m.reply("Difusion Enviada");
-    } else if(command == "bgc") {
-      if (!text) return m.reply(`Que quieres enviar?\n\nEjemplo: ${prefix + command} text`);
-      let getGroups = await myBot.groupFetchAllParticipating();
-      let groups = Object.entries(getGroups).slice(0).map((entry) => entry[1]);
-      let anu = groups.map((v) => v.id);
-      m.reply(`Enviar difusión a ${anu.length} grupos.\nTiempo de envio ${anu.length * 1.5} segundos.`);
-      for (let i of anu) {
-        await sleep(1500);
-        let txt = `「 Difusor Bot 」\n\n${text}`;
-        await myBot.sendImage(i, imgbc, txt);
-      }
-      m.reply("Difusion Enviada");
+  check: { pts: 1 },
+  async handler(m, {myBot, text}) {
+    if (!text) return m.reply('Que quieres enviar?');
+    let res = await fetchJson(process.env.DB_OLD);
+    let db = await Object.keys(res);
+    m.reply(`Enviar difusión a ${db.length} chat.\n*Tiempo de envio:* Aproximadamente ${db.length * 3.5} segundos.`);
+
+    for (let i of db) {
+      await myBot.sendImage(
+        i,
+        await m.quoted.download() || global.thumb,
+        text
+      );
+      await sleep(1500);
     }
+    m.reply("Difusion Enviada")
   }
 };

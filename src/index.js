@@ -1,9 +1,11 @@
 const express = require("express");
 const session = require("express-session");
 const bodyParser = require('body-parser');
+const axios = require('axios');
 const path = require("path");
 const app = express();
 const port = process.env.PORT || 3000;
+const log = console.log;
 
 const { User, UserModel } = require("./data");
 const myLang = require("../language").getString;
@@ -27,7 +29,7 @@ app.use((req, res, next) => {
   next();
 });
 
-/* imagenes generales */
+/* imágenes generales */
 app.get('/lib/logo', (req, res) => {
   res.sendFile(path.join(__dirname, '../lib/bot.jpg'));
 });
@@ -145,9 +147,17 @@ app.post("/registro", async (req, res) => {
   const username = req.body.username;
   const phone = req.body.phone;
   const password = req.body.password;
+  const cupon = req.body.promoCode;
+  let codePromo = ["semanafree"];
+  
+  function validateCode(code) {
+    return codePromo.includes(code);
+  }
+  
   let noPlus = phone.replace(/\+/g, '');
   let regUser = await User.check(noPlus+'@s.whatsapp.net');
   let exist = await client.onWhatsApp(phone+'@s.whatsapp.net');
+  
   if (!exist[0]) {
     return res.json({
       icon: 'warning',
@@ -165,21 +175,50 @@ app.post("/registro", async (req, res) => {
       ruta: ''
     });
   } else {
-    res.json({
-      icon: 'success',
-      tit: 'Exito',
-      msg: 'Usuario Guardaro!',
-      time: 2500,
-      ruta: '/login'
-    });
-    let newUser = new User(exist[0].jid, username, password);
-    await newUser.save();
-    await client.sendMessage(exist[0].jid, {
-      text: `Bienvenido ${username}, tus credenciales son las siguientes:\n\n`+
-      `*Usuario:*\n${username}\n`+
-      `*Contraseña:*\n${password}`
-    });
-    await client.sendText(exist[0].jid, myLang("global").welcome);
+    if (cupon) {
+      if (validateCode(cupon)) {
+        res.json({
+          icon: 'success',
+          tit: 'Exito',
+          msg: 'Usuario Guardaro!',
+          time: 2500,
+          ruta: '/login'
+        });
+        let newUser = new User(exist[0].jid, username, password);
+        await newUser.save();
+        await User.activatePremiumPlan(exist[0].jid, 'semana');
+        await client.sendMessage(exist[0].jid, {
+          text: `Bienvenido ${username}, tus credenciales son las siguientes:\n\n`+
+          `*Usuario:*\n${username}\n`+
+          `*Contraseña:*\n${password}`
+        });
+        await client.sendText(exist[0].jid, myLang("global").welcome);
+      } else {
+        return res.json({
+          icon: 'warning',
+          tit: 'Error',
+          msg: 'Codigo promocional no valido!',
+          time: 2500,
+          ruta: ''
+        });
+      }
+    } else {
+      res.json({
+        icon: 'success',
+        tit: 'Exito',
+        msg: 'Usuario Guardaro!',
+        time: 2500,
+        ruta: '/login'
+      });
+      let newUser = new User(exist[0].jid, username, password);
+      await newUser.save();
+      await client.sendMessage(exist[0].jid, {
+        text: `Bienvenido ${username}, tus credenciales son las siguientes:\n\n`+
+        `*Usuario:*\n${username}\n`+
+        `*Contraseña:*\n${password}`
+      });
+      await client.sendText(exist[0].jid, myLang("global").welcome);
+    }
   }
 });
 
@@ -202,13 +241,18 @@ async function requireAdmin(req, res, next) {
   }
 }
 
+function esPlanSuperior(aComprar, actual) {
+  const planes = { 'free': 0, "semana": 1,'bronce': 2, 'plata': 3, 'oro': 4};
+  return planes[aComprar] > planes[actual];
+}
+
 app.get("/usuario", requireLogin, async (req, res) => {
   res.set("Cache-Control", "no-cache, no-store, must-revalidate");
   res.set("Pragma", "no-cache");
   res.set("Expires", "0");
   const user = req.session.username;
   let checkUser = await User.show(user+'@s.whatsapp.net');
-  let emojis = {"bronce": "🥉 Bronce", "plata": "🥈 Plata", "oro": "🥇 Oro"};
+  let emojis = {"bronce": "🥉 Bronce", "plata": "🥈 Plata", "oro": "🥇 Oro", "semana": "7️⃣"};
   let premiumEmoji = emojis[checkUser.plan] || "🆓";
   
   let profile = {
@@ -275,11 +319,6 @@ app.get("/orden", requireLogin, async (req, res) => {
   
   // Verificar Plan Actual
   let verifyPlan = esPlanSuperior(plan, checkUser.plan)
-  function esPlanSuperior(aComprar, actual) {
-    const planes = { 'free': 0, 'bronce': 1, 'plata': 2, 'oro': 3};
-    return planes[aComprar] > planes[actual];
-  }
-
   res.render('order', {
     BOT_NAME,
     DOMINIO,
@@ -319,6 +358,58 @@ app.get("/configure", requireLogin, requireAdmin, async (req, res) => {
     console.error('Error al recuperar usuarios:', error);
     res.status(500).render("errores", { BOT_NAME, DOMINIO, pageTitle: '....?', description: generalDescription, errorMessage: "500 Error Interno Del Servidor" });
   }
+});
+
+app.get("/text2img", requireLogin, async (req, res) => {
+  let user = req.session.username;
+  let checkUser = await User.show(user+'@s.whatsapp.net');
+  
+  let verifyPlan = esPlanSuperior(checkUser.plan, 'semana');
+  res.render("ia_image", {
+    BOT_NAME,
+    DOMINIO,
+    pageTitle: 'text2img',
+    description: 'Generador de imágenes mediante IA.',
+    verifyPlan,
+    value: '',
+    imageUrl: ''
+  })
+})
+app.post("/text2img", requireLogin, async (req, res) => {
+  let user = req.session.username;
+  let checkUser = await User.show(user+'@s.whatsapp.net');
+  
+  let verifyPlan = esPlanSuperior(checkUser.plan, 'semana');
+  try {
+    let { data } = await axios.get(`${process.env.AI_GEN}/ai/text2img?text=${req.body.prompt}`, { responseType: 'arraybuffer' });
+    res.render("ia_image", {
+      BOT_NAME,
+      DOMINIO,
+      pageTitle: 'text2img',
+      description: 'Generador de imágenes mediante IA.',
+      verifyPlan,
+      value: 'by: text2img - '+req.body.prompt,
+      imageUrl: Buffer.from(data)
+    })
+  } catch {
+    try {
+      let { data } = await axios.get(`${process.env.AI_GEN}/dalle?text=${req.body.prompt}`, { responseType: 'arraybuffer' });
+      res.render("ia_image", {
+        BOT_NAME,
+        DOMINIO,
+        pageTitle: 'text2img',
+        description: 'Generador de imágenes mediante IA.',
+        verifyPlan,
+        value: 'by: dalle - '+req.body.prompt,
+        imageUrl: Buffer.from(data)
+      })
+    } catch {
+      res.status(500).render("errores", { BOT_NAME, DOMINIO, pageTitle: '....?', description: generalDescription, errorMessage: "500 Error Interno" });
+    }
+  }
+  
+  /*if (req.body.prompt.length < 8) return res.render("errores", { BOT_NAME, DOMINIO, pageTitle: '....?', description: generalDescription, errorMessage: 'Ingrese un prompt más detallado!' });
+  if (data.status === false) return res.render("errores", { BOT_NAME, DOMINIO, pageTitle: '....?', description: generalDescription, errorMessage: data.err });*/
 });
 
 app.get("/logout", (req, res) => {

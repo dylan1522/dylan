@@ -7,7 +7,7 @@ module.exports = {
   check: { pts: 0 },
   async handler(m, {User}) {
     const checkUser = await User.show(m.sender);
-    let emojis = {"bronce": "🥉", "plata": "🥈", "oro": "🥇",};
+    let emojis = {"bronce": "🥉", "plata": "🥈", "oro": "🥇", "semana": "7️⃣"};
     let premiumEmoji = emojis[checkUser.plan] || "🆓";
 
     let profile = `*Número:* ${checkUser.phone.split("@")[0]}\n`

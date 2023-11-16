@@ -1,0 +1,50 @@
+<%- include('src/up') %>
+
+      <!-- Contenido -->
+      <div class="col-7_sm-12">
+        <% if(verifyPlan === true) { %>
+          <div class="grid" style="justify-content: center;">
+            <h2>Generador de Imágenes</h2>
+            <form action="/text2img" method="POST" style="width: 80%">
+              <textarea id="prompt" name="prompt" style="height: 100px" placeholder="Ingrese su prompt..." required><%= value %></textarea>
+              <button class="btn btn-danger myBtn" type="submit">Generar Imagen</button>
+            </form>
+            
+            <div style="padding-top: 50px;">
+              <% if (imageUrl) { %>
+                <h2 style="text-align: center">Imagen Generada:</h2>
+                <img class="imgGenerate" src="data:image/png;base64,<%= imageUrl.toString('base64') %>" alt="image">
+                
+                <a id="btnDescargar" class="btn btn-success myBtn" download="imagen_generada.png">Descargar Imagen</a>
+              <% } %>
+            </div>
+          </div>
+        <% } else { %>
+          <h2>Aviso</h2>
+          <div class="alert alert-warning">Necesitas Premium</div>
+        <% } %>
+      </div>
+      
+      <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          const btnDescargar = document.getElementById('btnDescargar');
+      
+          if (btnDescargar) {
+            btnDescargar.addEventListener('click', function() {
+              const imgGenerate = document.querySelector('.imgGenerate');
+      
+              if (imgGenerate) {
+                const dataUrl = imgGenerate.src;
+                const a = document.createElement('a');
+                a.href = dataUrl;
+                a.download = 'imagen_generada.png';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+              }
+            });
+          }
+        });
+      </script>
+      
+<%- include('src/down') %>
