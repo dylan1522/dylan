@@ -21,24 +21,32 @@ module.exports = {
       await User.counter(m.sender, 1, isPremium);
     } catch {
       try {
-        const response = await axios.post('https://api.openai.com/v1/images/generations', {
-          //"model": "image-alpha-001",
-          "prompt": text,
-          "num_images": 1,
-          "size": "512x512",
-          "response_format": "url"
-        }, {
-            headers: {
-              'Authorization': `Bearer ${Config.OPEN_AI_KEY}`
-            }
-        });
+        let { data } = await axios.get(`${process.env.AI_GEN}/dalle?text=${text}`, { responseType: 'arraybuffer' });
         myBot.editMessage(m.chat, 'Dame un momento estoy dibujando!', 3, 'Dibujo Terminado, Enviando....')
         await sleep(3000)
-        await myBot.sendImage(m.chat, response.data.data[0].url, `*${Config.BOT_NAME}*`);
+        await myBot.sendImage(m.chat, data, `*${Config.BOT_NAME}* Dall-e Generator`);
         await User.counter(m.sender, 1, isPremium);
       } catch {
-        myBot.sendText(m.chat, errores())
-        throw e
+        try {
+          const response = await axios.post('https://api.openai.com/v1/images/generations', {
+            //"model": "image-alpha-001",
+            "prompt": text,
+            "num_images": 1,
+            "size": "512x512",
+            "response_format": "url"
+          }, {
+              headers: {
+                'Authorization': `Bearer ${Config.OPEN_AI_KEY}`
+              }
+          });
+          myBot.editMessage(m.chat, 'Dame un momento estoy dibujando!', 3, 'Dibujo Terminado, Enviando....')
+          await sleep(3000)
+          await myBot.sendImage(m.chat, response.data.data[0].url, `*${Config.BOT_NAME}*`);
+          await User.counter(m.sender, 1, isPremium);
+        } catch {
+          myBot.sendText(m.chat, errores())
+          throw e
+        }
       }
     }
   }
