@@ -1,4 +1,4 @@
-let { fetchJson } = require("../../lib/myfunc");
+let { fetchJson, sleep } = require("../../lib/myfunc");
 module.exports = {
   cmd: /^(dbold)/i,
   category: 'ia',
