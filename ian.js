@@ -10,7 +10,7 @@ const {
   proto,
   generateWAMessage,
   areJidsSameUser
-} = require("@adiwajshing/baileys");
+} = require("@whiskeysockets/baileys");
 const fs = require("fs");
 const { exec, spawn, execSync } = require("child_process");
 const axios = require("axios");

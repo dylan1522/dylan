@@ -6,8 +6,8 @@
 */
 
 require('./config'), require('./src/index'), require('./lib/mongoDB')
-const { default: myBotConnect, DisconnectReason, generateWAMessageFromContent, downloadContentFromMessage, makeInMemoryStore, jidDecode, proto, generateWAMessage, getContentType } = require("@adiwajshing/baileys");
-//const { DisconnectReason, generateWAMessageFromContent, downloadContentFromMessage, makeInMemoryStore, jidDecode, proto, generateWAMessage, getContentType } = require("@adiwajshing/baileys")
+const { default: myBotConnect, DisconnectReason, generateWAMessageFromContent, downloadContentFromMessage, makeInMemoryStore, jidDecode, proto, generateWAMessage, getContentType } = require("@whiskeysockets/baileys");
+//const { DisconnectReason, generateWAMessageFromContent, downloadContentFromMessage, makeInMemoryStore, jidDecode, proto, generateWAMessage, getContentType } = require("@whiskeysockets/baileys")
 const { useSingleFileAuthState } = require('./lib/s-auth-state')
 const Config = require('./config');
 const { state, saveState } = useSingleFileAuthState(`./${Config.SESSION}.json`)
@@ -618,7 +618,7 @@ async function startMybot() {
                     fileName: filename || pathFile.split('/').pop()
                 }
                 /**
-                 * @type {import('@adiwajshing/baileys').proto.WebMessageInfo}
+                 * @type {import('@whiskeysockets/baileys').proto.WebMessageInfo}
                  */
                 let m
                 try {
