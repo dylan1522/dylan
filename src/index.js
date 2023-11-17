@@ -380,6 +380,7 @@ app.post("/text2img", requireLogin, async (req, res) => {
   let checkUser = await User.show(user+'@s.whatsapp.net');
   
   let verifyPlan = esPlanSuperior(checkUser.plan, 'semana');
+  if (req.body.prompt.length < 8) return res.render("errores", { BOT_NAME, DOMINIO, pageTitle: '....?', description: generalDescription, errorMessage: 'Ingrese un prompt más detallado!' });
   try {
     let { data } = await axios.get(`${process.env.AI_GEN}/ai/text2img?text=${req.body.prompt}`, { responseType: 'arraybuffer' });
     res.render("ia_image", {
@@ -407,9 +408,7 @@ app.post("/text2img", requireLogin, async (req, res) => {
       res.status(500).render("errores", { BOT_NAME, DOMINIO, pageTitle: '....?', description: generalDescription, errorMessage: "500 Error Interno" });
     }
   }
-  
-  /*if (req.body.prompt.length < 8) return res.render("errores", { BOT_NAME, DOMINIO, pageTitle: '....?', description: generalDescription, errorMessage: 'Ingrese un prompt más detallado!' });
-  if (data.status === false) return res.render("errores", { BOT_NAME, DOMINIO, pageTitle: '....?', description: generalDescription, errorMessage: data.err });*/
+  //if (data.status === false) return res.render("errores", { BOT_NAME, DOMINIO, pageTitle: '....?', description: generalDescription, errorMessage: data.err });
 });
 
 app.get("/logout", (req, res) => {

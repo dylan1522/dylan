@@ -19,12 +19,14 @@ const FileType = require('file-type')
 const path = require('path')
 const _ = require('lodash')
 const axios = require('axios')
+const cron = require('node-cron')
 const Jimp = require('jimp')
 const PhoneNumber = require('awesome-phonenumber')
 const { imageToWebp, writeExifImg, writeExif } = require('./lib/exif')
 const { smsg, getBuffer, getSizeMedia, sleep, getFile } = require('./lib/myfunc')
 const { log, pint, bgPint } = require('./lib/colores');
 const { toAudio } = require('./lib/converter')
+const { crearFrases, enviarFrases } = require('./lib/subscription')
 const { User } = require("./src/data");
 const { BOT_NAME } = require('./config');
 
@@ -63,6 +65,9 @@ setInterval(() => {
     }
   });
 }, 10 * 60 * 1000);
+
+cron.schedule('50 5 * * 1', crearFrases);
+cron.schedule('0 6 * * *', enviarFrases);
 
 /*const folderPath = './temp';
 fs.watch(folderPath, (eventType, filename) => {
