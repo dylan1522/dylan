@@ -3208,6 +3208,19 @@ w3c-xmlserializer@^2.0.0:
   dependencies:
     xml-name-validator "^3.0.0"
 
+wa-sticker-formatter@^4.3.2:
+  version "4.4.4"
+  resolved "https://registry.yarnpkg.com/wa-sticker-formatter/-/wa-sticker-formatter-4.4.4.tgz#d3ad9cf81b2c00f853a3e75b6fb01664139881c1"
+  integrity sha512-tl2tXlu7HEs630+1LcJsdavNGEysyQV7EIe/tFsPJCEd2jteG0nGouWNUglUEjW+bDCZGXw9VpJgUtwVGIKr8w==
+  dependencies:
+    axios "^0.21.1"
+    file-type "^16.5.3"
+    fluent-ffmpeg "^2.1.2"
+    fs-extra "^10.0.0"
+    image-size "^1.0.0"
+    node-webpmux "^3.1.0"
+    sharp "^0.30.0"
+
 web-streams-polyfill@4.0.0-beta.3:
   version "4.0.0-beta.3"
   resolved "https://registry.yarnpkg.com/web-streams-polyfill/-/web-streams-polyfill-4.0.0-beta.3.tgz#2898486b74f5156095e473efe989dcf185047a38"
