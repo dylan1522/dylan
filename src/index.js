@@ -431,5 +431,5 @@ app.use((req, res, next) => {
 });
 
 app.listen(port, () => {
-  log(pint(`🌐 La aplicación está escuchando en el puerto ${port}`, '.'));
+  log(pint(`🌐 Servidor encendido en el puerto ${port}`, '.'));
 });

@@ -20,4 +20,4 @@ RUN yarn
 
 COPY . .
 
-CMD ["node", "."]
+CMD ["npm", "start"]

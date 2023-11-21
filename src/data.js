@@ -1,26 +1,6 @@
 const mongoose = require('mongoose');
 const fs = require("fs");
 
-function randomId(size) {
-  let id = "";
-  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  const numCharacters = characters.length;
-  for (let i = 0; i < size; i++) {
-    id += characters.charAt(Math.floor(Math.random() * numCharacters));
-  }
-  return id;
-}
-
-/*function totalHit() {
-  let sum = 0;
-  for (let key in database) {
-    sum += database[key].usage;
-  }
-  return sum;
-}*/
-
-//const keyUsageLimit = 3;
-
 const userSchema = new mongoose.Schema({
   phone: { type: String, required: true, unique: true },
   name: { type: String, required: true },
