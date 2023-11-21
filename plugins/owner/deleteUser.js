@@ -5,10 +5,10 @@ module.exports = {
   check: { pts: 1 },
   async handler(m, {myBot, args, User}) {
     let user = args[0]+'@s.whatsapp.net';
-    try {
+    if (await User.check(user)) {
       await User.delUser(user);
       myBot.sendText(m.chat, `Usuario eliminado con exito.`);
-    } catch {
+    } else {
       m.reply('Usuario no encontrado!');
     }
   }
