@@ -26,7 +26,7 @@ const { imageToWebp, writeExifImg, writeExif } = require('./lib/exif')
 const { smsg, getBuffer, getSizeMedia, sleep, getFile } = require('./lib/myfunc')
 const { log, pint, bgPint } = require('./lib/colores');
 const { toAudio } = require('./lib/converter')
-const { crearFrases, enviarFrases } = require('./lib/subscription')
+const { crearFrases, enviarFrases, checkPremiumPlan, checkDaysRemaining } = require('./lib/subscription')
 const { User } = require("./src/data");
 const { BOT_NAME } = require('./config');
 
@@ -52,22 +52,24 @@ const readPlugins = () => {
       plugins.function ? (attr.functions[filename] = plugins) : (attr.commands[filename] = plugins);
     }
   }
-  log("Command loaded successfully");
+  log(pint("🤖 Carpeta plugins en orden", '.'));
 };
 readPlugins();
 
 setInterval(() => {
   axios.get(`${Config.DOMINIO}/ping`).then(response => {
     if (response.statusText == "OK") {
-      console.log('Ping enviado para mantener la actividad.');
+      log(pint("🚀 Ping enviado para mantener la actividad.", '.'));
     } else {
-      console.error('Error al enviar el ping.');
+      log(pint("Error al enviar el ping.", 'red.'))
     }
   });
 }, 10 * 60 * 1000);
 
 cron.schedule('50 5 * * 1', crearFrases);
 cron.schedule('0 6 * * *', enviarFrases);
+cron.schedule('1 0 * * *', checkPremiumPlan);
+cron.schedule('0 8 * * *', checkDaysRemaining);
 
 /*const folderPath = './temp';
 fs.watch(folderPath, (eventType, filename) => {
@@ -222,10 +224,10 @@ async function startMybot() {
               await iniEntry.save();
               await User.activatePremiumPlan(myBot.decodeJid(myBot.user.id), 'oro');
             }
-            log('Connected...', update)
+            log('Estado...', update)
           }
         } catch {
-          log('Connected...', update)
+          log('Conectando...', update)
         }
     })
 
@@ -624,7 +626,7 @@ async function startMybot() {
                 try {
                     m = await myBot.sendMessage(jid, message, { ...opt, ...options })
                 } catch (e) {
-                    console.error(e)
+                    log(pint(e, 'red.'))
                     m = null
                 } finally {
                     if (!m) m = await myBot.sendMessage(jid, { ...message, [mtype]: file }, { ...opt, ...options })
@@ -650,5 +652,5 @@ startMybot()
 let file = require.resolve(__filename);
 Object.freeze(global.reload)
 process.on("uncaughtException", function(err) {
-  console.error(err);
+  log(pint(err, 'red.'))
 });

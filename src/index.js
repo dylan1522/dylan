@@ -5,8 +5,8 @@ const axios = require('axios');
 const path = require("path");
 const app = express();
 const port = process.env.PORT || 3000;
-const log = console.log;
 
+const { log, pint } = require('../lib/colores');
 const { User, UserModel } = require("./data");
 const myLang = require("../language").getString;
 const { BOT_NAME, DOMINIO } = require("../config");
@@ -354,8 +354,8 @@ app.get("/configure", requireLogin, requireAdmin, async (req, res) => {
       totalPages,
       currentPage: page
     });
-  } catch (error) {
-    console.error('Error al recuperar usuarios:', error);
+  } catch (e) {
+    log(pint(e, 'red.'))
     res.status(500).render("errores", { BOT_NAME, DOMINIO, pageTitle: '....?', description: generalDescription, errorMessage: "500 Error Interno Del Servidor" });
   }
 });
@@ -431,5 +431,5 @@ app.use((req, res, next) => {
 });
 
 app.listen(port, () => {
-  console.log(`La aplicación está escuchando en el puerto ${port}`);
+  log(pint(`🌐 La aplicación está escuchando en el puerto ${port}`, '.'));
 });

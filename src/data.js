@@ -73,7 +73,6 @@ class User {
     }
   }
 
-
   static async show(phone) {
     return await UserModel.findOne({ phone });
   }
@@ -112,7 +111,6 @@ class User {
     }
   }
 
-
   static async addToConversationHistory(phone, role, content) {
     const user = await UserModel.findOne({ phone });
     if (user) {
@@ -140,6 +138,8 @@ class User {
     const now = new Date();
     let endDate = new Date();
     const user = await UserModel.findOne({ phone });
+    now.setHours(0, 0, 0, 0);
+    endDate.setHours(0, 0, 0, 0);
     if (plan === "bronce") {
       endDate.setMonth(now.getMonth() + 1);
     } else if (plan === "plata") {
@@ -148,6 +148,8 @@ class User {
       endDate.setFullYear(now.getFullYear() + 1);
     } else if (plan === 'semana') {
       endDate.setDate(now.getDate() + 7);
+    } else if (!isNaN(plan) && Number(plan) > 0) {
+      endDate.setDate(now.getDate() + Number(plan));
     } else {
       return;
     }
@@ -174,9 +176,11 @@ class User {
         user.planEndDate = null;
         user.cash = 10;
         await user.save();
+        await client.sendText(
+          user.phone,
+          'Se ha terminado tu plan premium, actualiza y sigue disfrutando de los servicios de forma ilimitada.'
+        );
       }
-    } else {
-      console.log(`El usuario "${phone}" no existe en la base de datos o no tiene un plan premium activo.`);
     }
   }
   

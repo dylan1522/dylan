@@ -9,9 +9,9 @@ module.exports = {
     try {
       await User.activatePremiumPlan(newPrem, plan);
       let checkUser = await User.show(newPrem);
-      let emojis = {"bronce": "🥉", "plata": "🥈", "oro": "🥇"};
-      let premiumEmoji = emojis[checkUser.plan];
-      myBot.sendText(newPrem, `Ya eres Premium\nPlan: ${premiumEmoji}`);
+      /*let emojis = {"bronce": "🥉", "plata": "🥈", "oro": "🥇", "semana": "7️⃣"};
+      let premiumEmoji = emojis[checkUser.plan];*/
+      myBot.sendText(newPrem, `Ya eres Premium\nPlan: ${args[1]}`);
     } catch {
       m.reply('Usuario no encontrado!');
     }
