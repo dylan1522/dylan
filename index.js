@@ -66,10 +66,18 @@ setInterval(() => {
   });
 }, 10 * 60 * 1000);
 
-cron.schedule('50 5 * * 1', crearFrases);
-cron.schedule('0 6 * * *', enviarFrases);
-cron.schedule('1 0 * * *', checkPremiumPlan);
-cron.schedule('0 8 * * *', checkDaysRemaining);
+cron.schedule('50 5 * * 1', () => {
+  crearFrases
+}, { timezone: global.timeZone, });
+cron.schedule('0 6 * * *', () => {
+  enviarFrases
+}, { timezone: global.timeZone, });
+cron.schedule('1 0 * * *', () => {
+  checkPremiumPlan
+}, { timezone: global.timeZone, });
+cron.schedule('0 8 * * *', () => {
+  checkDaysRemaining
+}, { timezone: global.timeZone, });
 
 /*const folderPath = './temp';
 fs.watch(folderPath, (eventType, filename) => {
