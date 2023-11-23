@@ -11,7 +11,7 @@ module.exports = {
   isPrivate: true,
   owner: true,
   check: { pts: 1 },
-  async handler(m, {myBot, budy, myLang, User}) {
+  async handler(m, { myBot, budy, myLang, User }) {
     return;
   }
 };

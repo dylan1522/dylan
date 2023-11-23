@@ -7,7 +7,7 @@ module.exports = {
   desc: 'inteligencia artificial para creación de imagenes.',
   isPrivate: true,
   check: { pts: 1 },
-  async handler(m, {myBot, myLang, command, text, User}) {
+  async handler(m, { myBot, myLang, command, text, User }) {
     let checkUser = await User.show(m.sender);
     let isPremium = checkUser.premium ? 0 : -1;
     if(!text) return m.reply("Que imagen deseas crear?\nEscribe crea seguido de lo que quieres.");
@@ -15,15 +15,15 @@ module.exports = {
     myBot.sendReact(m.chat, "🎨", m.key);
     try {
       let { data } = await axios.get(`${process.env.AI_GEN}/ai/text2img?text=${text}`, { responseType: 'arraybuffer' });
-      myBot.editMessage(m.chat, 'Dame un momento estoy dibujando!', 3, 'Dibujo Terminado, Enviando....')
-      await sleep(3000)
+      myBot.editMessage(m.chat, 'Dame un momento estoy dibujando!', 3, 'Dibujo Terminado, Enviando....');
+      await sleep(3000);
       await myBot.sendImage(m.chat, data, `*${Config.BOT_NAME}* Image Generator`);
       await User.counter(m.sender, 1, isPremium);
     } catch {
       try {
         let { data } = await axios.get(`${process.env.AI_GEN}/dalle?text=${text}`, { responseType: 'arraybuffer' });
-        myBot.editMessage(m.chat, 'Dame un momento estoy dibujando!', 3, 'Dibujo Terminado, Enviando....')
-        await sleep(3000)
+        myBot.editMessage(m.chat, 'Dame un momento estoy dibujando!', 3, 'Dibujo Terminado, Enviando....');
+        await sleep(3000);
         await myBot.sendImage(m.chat, data, `*${Config.BOT_NAME}* Dall-e Generator`);
         await User.counter(m.sender, 1, isPremium);
       } catch {
@@ -39,13 +39,13 @@ module.exports = {
                 'Authorization': `Bearer ${Config.OPEN_AI_KEY}`
               }
           });
-          myBot.editMessage(m.chat, 'Dame un momento estoy dibujando!', 3, 'Dibujo Terminado, Enviando....')
-          await sleep(3000)
+          myBot.editMessage(m.chat, 'Dame un momento estoy dibujando!', 3, 'Dibujo Terminado, Enviando....');
+          await sleep(3000);
           await myBot.sendImage(m.chat, response.data.data[0].url, `*${Config.BOT_NAME}*`);
           await User.counter(m.sender, 1, isPremium);
         } catch {
-          myBot.sendText(m.chat, errores())
-          throw e
+          myBot.sendText(m.chat, errores());
+          throw e;
         }
       }
     }

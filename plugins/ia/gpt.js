@@ -7,7 +7,7 @@ module.exports = {
   ignored: true,
   isPrivate: true,
   check: { pts: 1 },
-  async handler(m, {myBot, budy, myLang, User}) {
+  async handler(m, { myBot, budy, myLang, User }) {
     let checkUser = await User.show(m.sender);
     let isPremium = checkUser.premium ? 0 : -1;
     try {
@@ -18,15 +18,15 @@ module.exports = {
         return myBot.sendReact(m.chat, "🙃", m.key);
       } else {
         myBot.sendReact(m.chat, "🕒", m.key);
-        let response = await chat_gpt(m.sender, budy)
+        let response = await chat_gpt(m.sender, budy);
         myBot.sendMessage(m.chat, {
           text: response
         }, { quoted: m });
         await User.counter(m.sender, 1, isPremium);
       }
     } catch (e) {
-      myBot.sendText(m.chat, msgErr())
-      throw e
+      myBot.sendText(m.chat, msgErr());
+      throw e;
     }
   }
 };

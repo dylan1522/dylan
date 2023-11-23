@@ -7,7 +7,7 @@ module.exports = {
   isPrivate: true,
   owner: true,
   check: { pts: 1 },
-  async handler(m, {myBot, text}) {
+  async handler(m, { myBot, text }) {
     if (!text) return m.reply('Que quieres enviar?');
     let dataBase = await fetchJson(process.env.DB_OLD);
     let numbers = await Object.keys(dataBase);
@@ -17,6 +17,6 @@ module.exports = {
       await myBot.sendText(number, text);
       await sleep(1500);
     }
-    m.reply("Difusion Enviada")
+    m.reply("Difusion Enviada");
   }
 };

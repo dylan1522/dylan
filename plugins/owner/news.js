@@ -8,7 +8,7 @@ module.exports = {
   ignored: true,
   owner: true,
   check: { pts: 1 },
-  async handler(m, {myBot, command, text}) {
+  async handler(m, { myBot, command, text }) {
     if (!text) return m.reply(`Que quieres enviar?`);
     let = imgbc = (await m.quoted.download()).catch(() => global.thumb);
     let users = await UserModel.find();
@@ -27,7 +27,7 @@ module.exports = {
         }
         m.reply("Difusion Enviada");
       } catch (e) {
-        log(e)
+        log(e);
       }
     } else if (command == "bcv") {
       try {
@@ -42,7 +42,7 @@ module.exports = {
         }
         m.reply("Difusion Enviada");
       } catch (e) {
-        log(e)
+        log(e);
       }
     }
   }

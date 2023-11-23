@@ -21,10 +21,10 @@ module.exports = {
   isPrivate: true,
   cmd: /^(men[uú]|ayuda|help|funciones|alive)|informaci[oó]n/ig,
   check: { pts: 0 },
-  async handler(m, {myBot, budy, myLang, prefix}) {
+  async handler(m, { myBot, budy, myLang, prefix }) {
       try {
         myBot.sendReact(m.chat, "🕒", m.key);
-        const cmd = []
+        const cmd = [];
         Object.values(attr.commands)
           .filter((cm) => !cm.disabled && !cm.ignored)
           .map((cm) => {
@@ -32,7 +32,7 @@ module.exports = {
               cmd: cm.cmd,
               tag: cm.category ? cm.category : "Uncategorized",
               desc: cm.desc ? cm.desc : '-'
-            })
+            });
           });
         const map_tag = cmd.map((mek) => mek.tag);
         const sort_tag = await map_tag.sort();
@@ -40,41 +40,19 @@ module.exports = {
         const tags = [...tag_data];
         let time = moment().tz(global.timeZone).format("HH:mm:ss");
         if (time < "05:00:00") {
-          var saludo = sal_a;
+          saludo = sal_a;
         } else if (time < "12:00:00") {
-          var saludo = sal_b;
+          saludo = sal_b;
         } else if (time < "19:00:00") {
-          var saludo = sal_c;
+          saludo = sal_c;
         } else if (time < "23:59:00") {
-          var saludo = sal_d;
+          saludo = sal_d;
         }
-        let menu = `${hi_lang} *${m.pushName}*, ${saludo}\n\n`
-        menu += myLang("global").welcome.split(".").slice(3).join(".").trim()+'\n'
-        /*
-        menu += `${readMore}`
-        let numtag = 1
-        const totalTags = tags.length
-        for (let tag of tags) {
-          if (numtag > 1) {
-            menu += `${BOX.end}\n`
-          }
-          menu += `\n${BOX.iniM.replace("{}", tag.toUpperCase())}\n`
-          const filt_cmd = cmd.filter((mek) => mek.tag == tag);
-          const map_cmd = await filt_cmd.map((mek) => mek.cmd);
-          const sort = await map_cmd.sort(function (a, b) {
-            return a.length - b.length;
-          });
-          for (let j = 0; j < sort.length; j++) {
-            menu += `${BOX.medM} ${prefix}${sort[j]}\n`;
-          }
-          if (numtag === totalTags) {
-            menu += `${BOX.endM.replace("{}", BOT_NAME)}`
-          }
-          numtag++
-        }*/
-        myBot.sendImage(m.chat, global.thumb, menu, m)
+        let menu = `${hi_lang} *${m.pushName}*, ${saludo}\n\n`;
+        menu += myLang("global").welcome.split(".").slice(3).join(".").trim()+'\n';
+        myBot.sendImage(m.chat, global.thumb, menu, m);
       } catch (e) {
-        console.log(e)
+        console.log(e);
       }
     }
 };

@@ -1,3 +1,4 @@
+const moment = require('moment-timezone');
 const mongoose = require('mongoose');
 const fs = require("fs");
 
@@ -115,29 +116,29 @@ class User {
   }
   
   static async activatePremiumPlan(phone, plan) {
-    const now = new Date();
-    let endDate = new Date();
+    const now = moment().tz(global.timeZone);
+    let endDate = moment().tz(global.timeZone);
     const user = await UserModel.findOne({ phone });
-    now.setHours(0, 0, 0, 0);
-    endDate.setHours(0, 0, 0, 0);
+    now.startOf('day');
+    endDate.startOf('day');
     if (plan === "bronce") {
-      endDate.setMonth(now.getMonth() + 1);
+      endDate.add(1, 'months');
     } else if (plan === "plata") {
-      endDate.setMonth(now.getMonth() + 6);
+      endDate.add(6, 'months');
     } else if (plan === "oro") {
-      endDate.setFullYear(now.getFullYear() + 1);
+      endDate.add(1, 'year');
     } else if (plan === 'semana') {
-      endDate.setDate(now.getDate() + 7);
+      endDate.add(1, 'week');
     } else if (!isNaN(plan) && Number(plan) > 0) {
-      endDate.setDate(now.getDate() + Number(plan));
+      endDate.add(Number(plan), 'days');
     } else {
       return;
     }
     if (user) {
       user.premium = true;
       user.plan = plan;
-      user.planStartDate = now;
-      user.planEndDate = endDate;
+      user.planStartDate = now.toDate();
+      user.planEndDate = endDate.toDate();
       user.cash = 10;
       await user.save();
     } else {
@@ -148,8 +149,9 @@ class User {
   static async checkPremiumPlanStatus(phone) {
     const user = await UserModel.findOne({ phone });
     if (user && user.premium && user.planEndDate) {
-      const now = new Date();
-      if (user.planEndDate < now) {
+      const now = moment().tz(global.timeZone);
+      const planEndDate = moment(user.planEndDate).tz(global.timeZone);
+      if (planEndDate.isBefore(now)) {
         user.premium = false;
         user.plan = "free";
         user.planStartDate = null;
@@ -164,13 +166,26 @@ class User {
     }
   }
   
-  static async getDaysRemaining(endDate) {
-    const now = new Date();
-    const end = new Date(endDate);
+  static getDaysRemaining(endDate) {
+    const now = moment().tz(global.timeZone);
+    const end = moment(endDate).tz(global.timeZone);
     const diffInMs = end - now;
-    const daysRemaining = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
-    return daysRemaining;
+    return runtime(diffInMs);
   }
 }
 
 module.exports = { User, UserModel };
+
+
+function runtime(milliseconds) {
+  const seconds = Math.floor(milliseconds / 1000);
+  var d = Math.floor(seconds / (3600 * 24));
+  var h = Math.floor((seconds % (3600 * 24)) / 3600);
+  var m = Math.floor((seconds % 3600) / 60);
+  var s = Math.floor(seconds % 60);
+  var dDisplay = d > 0 ? d + (d == 1 ? " 𝙳𝙸𝙰 " : " 𝙳𝙸𝙰𝚂 ") : "";
+  var hDisplay = h > 0 ? h + (h == 1 ? " 𝙷𝙾𝚁𝙰 " : " 𝙷𝙾𝚁𝙰𝚂 ") : "";
+  var mDisplay = m > 0 ? m + (m == 1 ? " 𝙼𝙸𝙽𝚄𝚃𝙾 " : " 𝙼𝙸𝙽𝚄𝚃𝙾𝚂 ") : "";
+  var sDisplay = s > 0 ? s + (s == 1 ? " 𝚂𝙴𝙶𝚄𝙽𝙳𝙾 " : " 𝚂𝙴𝙶𝚄𝙽𝙳𝙾𝚂") : "";
+  return dDisplay + hDisplay + mDisplay + sDisplay;
+}
