@@ -10,8 +10,7 @@ const { default: myBotConnect, DisconnectReason, generateWAMessageFromContent, d
 //const { DisconnectReason, generateWAMessageFromContent, downloadContentFromMessage, makeInMemoryStore, jidDecode, proto, generateWAMessage, getContentType } = require("@whiskeysockets/baileys")
 const { useSingleFileAuthState } = require('./lib/s-auth-state')
 const Config = require('./config');
-//const { state, saveState } = useSingleFileAuthState(`./${Config.SESSION}.json`)
-const { state, saveState } = useSingleFileAuthState(`../modules/session/${Config.SESSION}.json`)
+const { state, saveState } = useSingleFileAuthState(`./${Config.SESSION}.json`)
 const pino = require('pino')
 const { Boom } = require('@hapi/boom')
 const fs = require('fs')
