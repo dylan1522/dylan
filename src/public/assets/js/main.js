@@ -39,7 +39,15 @@ const iti = window.intlTelInput(input, {
       .catch(function() { callback("us"); });
   }
 });
-
+/*
+$(document).ready(function() {
+  $('form').submit(function() {
+    $('#cload').addClass('loading');
+    $('#cload').prop('disabled', true);
+    return true;
+  });
+});
+*/
   $(document).ready(function () {
     $("#app-login").submit(function (e) {
       e.preventDefault();
@@ -55,7 +63,10 @@ const iti = window.intlTelInput(input, {
           type: "POST",
           url: "/login",
           data: formData,
+          beforeSubmit: function () {},
           success: function (res) {
+            $("#cload").addClass("loading");
+            //$("#cload").removeClass("loading")
             tod[res.icon]({
               status: res.tit,
               message: res.msg,

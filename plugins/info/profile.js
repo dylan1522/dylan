@@ -16,7 +16,7 @@ module.exports = {
     profile += `*Uso del Bot:* ${checkUser.usage}\n`;
     if (checkUser.premium) {
       profile += `*Plan Premium:* ${premiumEmoji}\n`;
-      profile += `*Días restantes:* ${await User.getDaysRemaining(checkUser.planEndDate)}\n`;
+      profile += `*Tiempo restantes:* ${await User.getDaysRemaining(checkUser.planEndDate)}\n`;
       profile += `*Usos restantes:* ♾️`;
     } else {
       profile += `*Plan Premium:* ${premiumEmoji}\n`;

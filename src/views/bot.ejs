@@ -27,7 +27,8 @@
           <div class="pricing">
             <h2 class="package"><%= user.name %></h2>
             <span class="limit"><%= user.phone.split('@')[0] %></span><br>
-            <span class="limit">Plan: <%= user.plan %></span>
+            <span class="limit">Plan: <%= user.plan %></span><br>
+            <span class="limit">Tiempo: <%= User.getDaysRemaining(user.planEndDate) || user.cash + ' creditos restantes.' %></span>
             <br>
           </div>
           <hr>

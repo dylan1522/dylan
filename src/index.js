@@ -77,6 +77,24 @@ app.get("/wame", async (req, res) => {
     });
   }
 });
+app.get('/chat', (req, res) => {
+  res.render('chatpage', {
+    BOT_NAME,
+    DOMINIO,
+    pageTitle: 'chatIA',
+    description: 'chat mediante IA.',
+  });
+});
+app.post('/chat', async (req, res) => {
+  const userMessage = req.body.userMessage
+  try {
+    let { data } = await axios.get(`https://aemt.me/openai?text=${userMessage}`);
+    res.json({ gpt: data.result });
+  } catch (error) {
+    res.json({ gpt: '<div style="color:red;"> Error interno del servidor. Intenta otra vez!</div>'})
+  }
+});
+
 app.get("/politicas_de_privacidad", (req, res) => {
   res.render("privacy", {
     BOT_NAME,
@@ -352,7 +370,8 @@ app.get("/configure", requireLogin, requireAdmin, async (req, res) => {
       totalUsers,
       users,
       totalPages,
-      currentPage: page
+      currentPage: page,
+      User
     });
   } catch (e) {
     log(pint(e, 'red.'))

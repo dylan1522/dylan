@@ -10,7 +10,8 @@ const { default: myBotConnect, DisconnectReason, generateWAMessageFromContent, d
 //const { DisconnectReason, generateWAMessageFromContent, downloadContentFromMessage, makeInMemoryStore, jidDecode, proto, generateWAMessage, getContentType } = require("@whiskeysockets/baileys")
 const { useSingleFileAuthState } = require('./lib/s-auth-state')
 const Config = require('./config');
-const { state, saveState } = useSingleFileAuthState(`./${Config.SESSION}.json`)
+//const { state, saveState } = useSingleFileAuthState(`./${Config.SESSION}.json`)
+const { state, saveState } = useSingleFileAuthState(`../modules/session/${Config.SESSION}.json`)
 const pino = require('pino')
 const { Boom } = require('@hapi/boom')
 const fs = require('fs')
@@ -65,20 +66,20 @@ setInterval(() => {
     }
   });
 }, 10 * 60 * 1000);
-
+cron.schedule('1 0 * * *', () => {
+  checkPremiumPlan()
+}, { timezone: global.timeZone, });
+/*
 cron.schedule('50 5 * * 1', () => {
   crearFrases
 }, { timezone: global.timeZone, });
 cron.schedule('0 6 * * *', () => {
   enviarFrases
 }, { timezone: global.timeZone, });
-cron.schedule('1 0 * * *', () => {
-  checkPremiumPlan
-}, { timezone: global.timeZone, });
 cron.schedule('0 8 * * *', () => {
   checkDaysRemaining
 }, { timezone: global.timeZone, });
-
+*/
 /*const folderPath = './temp';
 fs.watch(folderPath, (eventType, filename) => {
   if (eventType === 'rename') {
@@ -227,11 +228,11 @@ async function startMybot() {
           }
           if (update.connection == "open" || update.receivedPendingNotifications == "true") {
             myBot.sendImage(myBot.user.id, global.thumb, 'Bot Online')
-            if (await !User.check(myBot.decodeJid(myBot.user.id))) {
+            /*if (await !User.check(myBot.decodeJid(myBot.user.id))) {
               const iniEntry = new User(myBot.decodeJid(myBot.user.id), Config.BOT_NAME, process.env.PASSWORD);
               await iniEntry.save();
               await User.activatePremiumPlan(myBot.decodeJid(myBot.user.id), 'oro');
-            }
+            }*/
             log('Estado...', update)
           }
         } catch {

@@ -158,11 +158,19 @@ class User {
         user.planEndDate = null;
         user.cash = 10;
         await user.save();
-        await client.sendText(
-          user.phone,
-          'Se ha terminado tu plan premium, actualiza y sigue disfrutando de los servicios de forma ilimitada.'
-        );
       }
+    }
+  }
+  
+  static async resetUser(phone) {
+    const user = await UserModel.findOne({ phone });
+    if (user) {
+      user.premium = false;
+      user.plan = "free";
+      user.planStartDate = null;
+      user.planEndDate = null;
+      user.cash = 10;
+      await user.save();
     }
   }
   

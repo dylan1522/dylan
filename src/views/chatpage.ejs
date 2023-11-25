@@ -1,0 +1,17 @@
+<%- include('src/up') %>
+
+  <div class="col-7_sm-12">
+    <div class="chat-container" >
+      <ul id="chat-display" class="timeline marginUp" style="overflow-x: auto;">
+      </ul>
+        
+      <form id="chat-form">
+        <textarea id="user-message" placeholder="Escribe un mensaje..." required=""></textarea>
+        <button class="btn" id="send-button" type="submit"> Enviar </button>
+      </form>
+      </br>
+      <button class="btn" style="display: none" id="clear-history-button"> Limpiar Historial </button>
+    </div>
+  </div>
+
+<%- include('src/down') %>
