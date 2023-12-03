@@ -88,7 +88,7 @@ app.get('/chat', (req, res) => {
 app.post('/chat', async (req, res) => {
   const userMessage = req.body.userMessage
   try {
-    let { data } = await axios.get(`https://aemt.me/openai?text=${userMessage}`);
+    let { data } = await axios.get(`${process.env.AI_GEN}/openai?text=${userMessage}`);
     res.json({ gpt: data.result });
   } catch (error) {
     res.json({ gpt: '<div style="color:red;"> Error interno del servidor. Intenta otra vez!</div>'})

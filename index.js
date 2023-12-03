@@ -141,7 +141,7 @@ async function startMybot() {
         } else return jid
     };
     
-    myBot.ev.on('contacts.update', update => {
+    myBot.ev.on('contacts.update', (update) => {
         for (let contact of update) {
             let id = myBot.decodeJid(contact.id)
             if (store && store.contacts) store.contacts[id] = { id, name: contact.notify }

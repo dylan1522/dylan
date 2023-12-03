@@ -58,19 +58,14 @@ module.exports = myBot = async (myBot, m, chatUpdate, store) => {
     }
 
     //  Push Message To Console && Auto Read
-    if (m.message) {
-      if (Config.READ === "true") {
-        myBot.sendReadReceipt(m.chat, m.sender, [m.key.id]);
-      }
-      if (Config.MSG_CONSOLE === "true") {
-        log(
-          pint(bgPint(new Date(), "white"), "black.") + "\n" +
-          pint(bgPint("[ NUEVO MENSAJE ]", "white"), "black.") + "\n" +
-          pint(bgPint(budy, "blue"), "white.") + "\n" +
-          pint("=> Sender: ", "magenta") + pint(pushname) + " " + pint(m.sender, "yellow") + "\n" +
-          pint("=> To: ", "blue") + " " + pint(m.isGroup ? pushname : "Chat Privado") + " " + pint(m.chat) + "\n\n"
-        );
-      }
+    if (m.message && Config.MSG_CONSOLE === "true") {
+      log(
+        pint(bgPint(new Date(), "white"), "black.") + "\n" +
+        pint(bgPint("[ NUEVO MENSAJE ]", "white"), "black.") + "\n" +
+        pint(bgPint(budy == 'conversation' ? body : budy, "blue"), "white.") + "\n" +
+        pint("=> Sender: ", "magenta") + pint(pushname) + " " + pint(m.sender, "yellow") + "\n" +
+        pint("=> To: ", "blue") + " " + pint(m.isGroup ? pushname : "Chat Privado") + " " + pint(m.chat) + "\n\n"
+      );
     }
 //log(m)
     const cmd = Object.values(attr.commands).find((cmn) => cmn.cmd && command.match(cmn.cmd) && !cmn.disabled);
